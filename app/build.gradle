@@ -10,7 +10,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        // dex突破65535的限制
         multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -29,7 +31,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:23.4.0'
     testCompile 'junit:junit:4.12'
-    compile 'com.google.dagger:dagger:2.8'
-    compile 'com.google.dagger:dagger-compiler:2.8'
     compile 'org.xutils:xutils:3.3.40'
+    compile 'com.android.support:design:23.4.0'
 }

@@ -3,4 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="themdColor">#30B2FE</color>
+    <color name="white">#ffffff</color>
+    <color name="qBlue">#4ABDFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#d5d5d5</color>
+    <!-- 烟白色 -->
+    <color name="whitesmoke">#f4f4f4</color>
+    <color name="weizhiColor">#70B7EF</color>
+    <color name="color_00">#33000000</color>
+    <color name="color_ff">#FFF0F0F0</color>
 </resources>

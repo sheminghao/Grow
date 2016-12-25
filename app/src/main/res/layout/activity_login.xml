@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/themdColor"
+    tools:context="com.example.shetj.babydiary.ui.login.LoginActivity">
+    <ImageView
+        android:layout_width="125dp"
+        android:layout_height="125dp"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/logo"/>
+    <EditText
+        android:id="@+id/edit_Id"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_margin="45dp"
+        android:layout_centerInParent="true"
+        android:hint="请输入你的ID账号："
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:paddingLeft="10dp"
+        android:textColorHint="@color/whitesmoke"
+        android:background="@drawable/shape_q_blue_10px"/>
+
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="124dp"
+        android:layout_height="42dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_white_20dp"
+        android:textColor="@color/themdColor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/edit_Id"
+        android:text="下一步"/>
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="124dp"
+        android:layout_height="42dp"
+        android:padding="10dp"
+        android:background="@drawable/shape_white_20dp"
+        android:textColor="@color/themdColor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/btn_next"
+        android:text="新建"/>
+</RelativeLayout>

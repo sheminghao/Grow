@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="D:\AndroidProject\Shetj\pagerSlidingTabStrip\src\main\shaders"/></dataSet><dataSet config="debug"><source path="D:\AndroidProject\Shetj\pagerSlidingTabStrip\src\debug\shaders"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="E:\AndroidStudio\cnmobi\Grow\pagerSlidingTabStrip\src\main\shaders"/></dataSet><dataSet config="debug"><source path="E:\AndroidStudio\cnmobi\Grow\pagerSlidingTabStrip\src\debug\shaders"/></dataSet></merger>

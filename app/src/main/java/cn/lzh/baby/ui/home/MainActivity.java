@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import cn.lzh.baby.R;
@@ -76,7 +77,7 @@ public class MainActivity extends BaseActivity {
 	}
 
 	private void showPop(final int[] positon) {
-		pop=new MyPopupWindow(this,R.layout.pop_case,positon,true,DensityUtil.dip2px(180),DensityUtil.dip2px(230));
+		pop=new MyPopupWindow(this,R.layout.pop_case,positon,true,DensityUtil.dip2px(180),DensityUtil.dip2px(300));
 		//宝宝资料
 		pop.setViewListener(R.id.ly_baobao, new View.OnClickListener() {
 			@Override
@@ -85,7 +86,7 @@ public class MainActivity extends BaseActivity {
 				pop.dismiss();
 			}
 		});
-		//发生视频
+		//发视频
 		pop.setViewListener(R.id.ly_p_shipin, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -93,7 +94,7 @@ public class MainActivity extends BaseActivity {
 				pop.dismiss();
 			}
 		});
-		//发生心情
+		//发心情
 		pop.setViewListener(R.id.ly_p_xinqing, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -101,8 +102,16 @@ public class MainActivity extends BaseActivity {
 				pop.dismiss();
 			}
 		});
-		//隐私界面
+		//写日记
 		pop.setViewListener(R.id.ly_p_yinsi, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this, PublishPrivateActivity.class));
+				pop.dismiss();
+			}
+		});
+		//我的资料
+		pop.setViewListener(R.id.ly_mine, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startActivity(new Intent(MainActivity.this, PublishPrivateActivity.class));
@@ -128,6 +137,30 @@ public class MainActivity extends BaseActivity {
 		fragmentList.add(DiaryFragment.newInstance("10月"));
 		fragmentList.add(DiaryFragment.newInstance("11月"));
 		fragmentList.add(DiaryFragment.newInstance("12月"));
+		fragmentList.add(DiaryFragment.newInstance("1月"));
+		fragmentList.add(DiaryFragment.newInstance("2月"));
+		fragmentList.add(DiaryFragment.newInstance("3月"));
+		fragmentList.add(DiaryFragment.newInstance("4月"));
+		fragmentList.add(DiaryFragment.newInstance("5月"));
+		fragmentList.add(DiaryFragment.newInstance("6月"));
+		fragmentList.add(DiaryFragment.newInstance("7月"));
+		fragmentList.add(DiaryFragment.newInstance("8月"));
+		fragmentList.add(DiaryFragment.newInstance("9月"));
+		fragmentList.add(DiaryFragment.newInstance("10月"));
+		fragmentList.add(DiaryFragment.newInstance("11月"));
+		fragmentList.add(DiaryFragment.newInstance("12月"));
+		fragmentList.add(DiaryFragment.newInstance("1月"));
+		fragmentList.add(DiaryFragment.newInstance("2月"));
+		fragmentList.add(DiaryFragment.newInstance("3月"));
+		fragmentList.add(DiaryFragment.newInstance("4月"));
+		fragmentList.add(DiaryFragment.newInstance("5月"));
+		fragmentList.add(DiaryFragment.newInstance("6月"));
+		fragmentList.add(DiaryFragment.newInstance("7月"));
+		fragmentList.add(DiaryFragment.newInstance("8月"));
+		fragmentList.add(DiaryFragment.newInstance("9月"));
+		fragmentList.add(DiaryFragment.newInstance("10月"));
+		fragmentList.add(DiaryFragment.newInstance("11月"));
+		fragmentList.add(DiaryFragment.newInstance("12月"));
 		pageAdapter = new PageAdapter(getSupportFragmentManager(), fragmentList);
 		mViewPager.setAdapter(pageAdapter);
 		mViewPager.setPageMargin(pageMargin);
@@ -140,13 +173,19 @@ public class MainActivity extends BaseActivity {
 	}
 
 
+	private long exitTime = 0;
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		switch (keyCode) {
-			case KeyEvent.KEYCODE_BACK:
+		if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+			if((System.currentTimeMillis()-exitTime) > 2000){
+				Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+				exitTime = System.currentTimeMillis();
+			} else {
 				//退出
 				appManager.AppExit(this);
-				break;
+			}
+			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}

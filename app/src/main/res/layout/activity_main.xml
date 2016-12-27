@@ -22,18 +22,18 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/ziliaotouxiang"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginTop="35dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:background="@mipmap/sousuokuang"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                android:text="关键字、日期"/>
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="45dp"-->
+                <!--android:layout_marginTop="35dp"-->
+                <!--android:layout_marginLeft="40dp"-->
+                <!--android:layout_marginRight="40dp"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:gravity="center"-->
+                <!--android:background="@mipmap/sousuokuang"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="18dp"-->
+                <!--android:text="关键字、日期"/>-->
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 

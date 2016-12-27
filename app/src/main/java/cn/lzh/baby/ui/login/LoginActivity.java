@@ -2,13 +2,16 @@ package cn.lzh.baby.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import cn.lzh.baby.R;
 import cn.lzh.baby.base.BaseActivity;
 import cn.lzh.baby.ui.babyInfo.BabyInfoActivity;
 import cn.lzh.baby.ui.home.MainActivity;
+import cn.lzh.baby.ui.register.RegisterActivity;
 import cn.lzh.baby.ui.splash.SplashActivity;
 import cn.lzh.baby.utils.tools.T;
 import cn.lzh.baby.utils.view.LoadingDialog;
@@ -30,8 +33,11 @@ public class LoginActivity extends BaseActivity implements LoginView {
 	@BindView(R.id.btn_next)
 	Button btnNext;
 	LoginPresenter presenter;
-	@BindView(R.id.btn_add)
-	Button btnAdd;
+	@BindView(R.id.btn_register)
+	Button btnRegister;
+	@BindView(R.id.tv_pwd)
+	TextView tvPwd;
+
 
 	@Subscribe
 	@Override
@@ -41,6 +47,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
 		setContentView(R.layout.activity_login);
 		ButterKnife.bind(this);
 
+		tvPwd.setText(Html.fromHtml("密&nbsp;&nbsp;&nbsp;&nbsp;码: "));
 
 		presenter = new LoginPresenter(this);
 		RxView.clicks(btnNext).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
@@ -50,10 +57,10 @@ public class LoginActivity extends BaseActivity implements LoginView {
 				goMain();
 			}
 		});
-		RxView.clicks(btnAdd).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
+		RxView.clicks(btnRegister).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
 			@Override
 			public void call(Void aVoid) {
-				presenter.goAdd();
+				presenter.goRegister();
 			}
 		});
 		presenter.IsLogin();
@@ -92,8 +99,8 @@ public class LoginActivity extends BaseActivity implements LoginView {
 	}
 
 	@Override
-	public void goBabyInfo() {
-		startActivity(new Intent(this, BabyInfoActivity.class));
+	public void goRegister() {
+		startActivity(new Intent(this, RegisterActivity.class));
 	}
 
 	@Override

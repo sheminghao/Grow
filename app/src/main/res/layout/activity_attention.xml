@@ -7,8 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="cn.lzh.baby.ui.babyInfo.BabyInfoActivity">
+    tools:context="cn.lzh.baby.ui.attention.AttentionActivity">
     <include layout="@layout/toolbar"/>
 
-    <include layout="@layout/content_baby_info"/>
+    <include layout="@layout/content_attention"/>
 </android.support.design.widget.CoordinatorLayout>

@@ -25,8 +25,8 @@ public class LoginPresenter implements HttpOnNextListener{
 		}
 	}
 
-	public void goAdd(){
-		loginView.goBabyInfo();
+	public void goRegister(){
+		loginView.goRegister();
 	}
 
 	public void Login(){

@@ -10,7 +10,7 @@ import org.xutils.x;
  * Created by shetj on 2016/11/17.
  */
 
-public class App extends Application{
+public class APP extends Application{
 	public static Context app;
 
 	@Override

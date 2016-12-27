@@ -14,6 +14,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import butterknife.ButterKnife;
 import cn.lzh.baby.AppManager;
 import cn.lzh.baby.R;
 
@@ -38,6 +39,7 @@ public abstract class BaseActivity extends RxAppCompatActivity {
   public AppManager appManager;
   @Subscribe
   public void onCreate(Bundle savedInstanceState) {
+
     // 透明状态栏
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     requestWindowFeature(Window.FEATURE_NO_TITLE); //设置无标题

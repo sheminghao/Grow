@@ -5,7 +5,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 import java.lang.ref.SoftReference;
 import java.util.concurrent.TimeUnit;
 
-import cn.lzh.baby.App;
+import cn.lzh.baby.APP;
 import cn.lzh.baby.http2_rx.Api.BaseApi;
 import cn.lzh.baby.http2_rx.cookie.CacheInterceptor;
 import cn.lzh.baby.http2_rx.exception.RetryWhenNetworkException;
@@ -47,7 +47,7 @@ public class HttpManager {
         builder.connectTimeout(basePar.getConnectionTime(), TimeUnit.SECONDS);
         builder.addNetworkInterceptor(new CacheInterceptor());
         /*缓存位置和大小*/
-        builder.cache(new Cache(App.app.getCacheDir(),10*1024*1024));
+        builder.cache(new Cache(APP.app.getCacheDir(),10*1024*1024));
 
         /*创建retrofit对象*/
         Retrofit retrofit = new Retrofit.Builder()

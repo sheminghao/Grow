@@ -3,10 +3,10 @@
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:padding="5dp"
-                android:layout_height="220dp">
+                android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:background="@drawable/shape_white_10px"
         android:orientation="vertical">
@@ -96,6 +96,27 @@
                 android:padding="5dp"
                 android:textSize="18sp"
                 android:text="宝宝资料"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ly_mine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/selector_white_gray__0px"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="5dp"
+                android:src="@mipmap/baobaoziliao"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="5dp"
+                android:textSize="18sp"
+                android:text="我的资料"/>
         </LinearLayout>
     </LinearLayout>
     <!--<ImageView-->

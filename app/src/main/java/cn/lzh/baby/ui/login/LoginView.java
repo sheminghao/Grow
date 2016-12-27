@@ -1,11 +1,8 @@
 package cn.lzh.baby.ui.login;
 
-import android.content.Context;
-
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 /**
- * Created by shetj on 2016/12/3.
  */
 
 public interface LoginView {
@@ -34,7 +31,7 @@ public interface LoginView {
 
 	void showMsg(String msg);
 
-	void goBabyInfo();
+	void goRegister();
 
 	void goMain();
 }

@@ -14,7 +14,7 @@ import java.lang.ref.SoftReference;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
-import cn.lzh.baby.App;
+import cn.lzh.baby.APP;
 import cn.lzh.baby.http2_rx.Api.BaseApi;
 import cn.lzh.baby.http2_rx.AppUtil;
 import cn.lzh.baby.http2_rx.Db.CookieDbUtil;
@@ -123,7 +123,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
     public void onStart() {
         showProgressDialog();
         /*缓存并且有网*/
-        if(api.isCache()&& AppUtil.isNetworkAvailable(App.app)){
+        if(api.isCache()&& AppUtil.isNetworkAvailable(APP.app)){
              /*获取缓存数据*/
             CookieResulte cookieResulte= db.queryCookieBy(api.getUrl());
             if(cookieResulte!=null){

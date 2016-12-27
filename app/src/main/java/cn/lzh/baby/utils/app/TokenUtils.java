@@ -1,7 +1,7 @@
 package cn.lzh.baby.utils.app;
 
 
-import cn.lzh.baby.App;
+import cn.lzh.baby.APP;
 import cn.lzh.baby.utils.file.SPUtils;
 
 /**
@@ -15,14 +15,14 @@ public class TokenUtils {
 	* 保存token
 	*/
 	public static void saveToken(String token){
-		SPUtils.put(App.app,"token",token);
+		SPUtils.put(APP.app,"token",token);
 	}
 	
 	/**
 	* 获得token
 	*/
 	public static String getToken(){
-		return (String) SPUtils.get(App.app,"token","");
+		return (String) SPUtils.get(APP.app,"token","");
 	}
 
 

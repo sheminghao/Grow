@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/activity_register"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/themdColor"
+    tools:context="cn.lzh.baby.ui.register.RegisterActivity"
     android:orientation="vertical"
-    tools:context="cn.lzh.baby.ui.login.LoginActivity"
     android:gravity="center_horizontal">
+
     <ImageView
         android:layout_width="125dp"
         android:layout_height="125dp"
@@ -26,9 +27,10 @@
         android:layout_marginTop="40dp">
 
         <TextView
+            android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="用户名: "
+            android:text=""
             android:textSize="16sp"
             android:textColor="@color/white"/>
 
@@ -76,32 +78,44 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginTop="50dp">
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_confirm_pwd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="16sp"
+            android:textColor="@color/white"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:hint="请输入密码"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:paddingLeft="10dp"
+            android:textColorHint="@color/whitesmoke"
+            android:inputType="textPassword"
+            android:background="@drawable/shape_q_blue_10px"/>
+
+    </LinearLayout>
 
         <Button
-            android:id="@+id/btn_next"
-            android:layout_width="100dp"
-            android:layout_height="42dp"
-            android:padding="10dp"
-            android:layout_marginRight="35dp"
-            android:background="@drawable/shape_white_20dp"
-            android:textColor="@color/themdColor"
-            android:text="登陆"
-            android:textSize="16sp"/>
-        <Button
             android:id="@+id/btn_register"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="42dp"
+            android:layout_marginTop="50dp"
             android:padding="10dp"
             android:background="@drawable/shape_white_20dp"
             android:textColor="@color/themdColor"
             android:text="注册"
             android:textSize="16sp"/>
-
-    </LinearLayout>
 
 </LinearLayout>

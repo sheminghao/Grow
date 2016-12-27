@@ -1,7 +1,7 @@
 package cn.lzh.baby.utils.app;
 
 
-import cn.lzh.baby.App;
+import cn.lzh.baby.APP;
 import cn.lzh.baby.modle.Baby;
 import cn.lzh.baby.modle.User;
 import cn.lzh.baby.utils.file.SPUtils;
@@ -16,7 +16,7 @@ import cn.lzh.baby.utils.tools.EmptyUtils;
  */
 public class UserUitls {
 	public static User getUserInfo(){
-		String info=(String) SPUtils.get(App.app,"userInfo","");
+		String info=(String) SPUtils.get(APP.app,"userInfo","");
 		if (!EmptyUtils.isEmpty(info)) {
 			return (User) GsonKit.jsonToBean(info, User.class);
 		}
@@ -25,7 +25,7 @@ public class UserUitls {
 	}
 
 	public static void saveUserInfo(User user){
-		SPUtils.put(App.app,"userInfo", GsonKit.objectToJson(user));
+		SPUtils.put(APP.app,"userInfo", GsonKit.objectToJson(user));
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class UserUitls {
 	}
 
 	public static Baby getBabyInfo(){
-		String info=(String) SPUtils.get(App.app,"babyInfo","");
+		String info=(String) SPUtils.get(APP.app,"babyInfo","");
 		if (!EmptyUtils.isEmpty(info)) {
 			return (Baby) GsonKit.jsonToBean(info, Baby.class);
 		}
@@ -45,7 +45,7 @@ public class UserUitls {
 
 	public static void saveBabyInfo(Baby baby){
 		if (!EmptyUtils.isEmpty(baby)) {
-			SPUtils.put(App.app, "babyInfo", GsonKit.objectToJson(baby));
+			SPUtils.put(APP.app, "babyInfo", GsonKit.objectToJson(baby));
 		}
 	}
 

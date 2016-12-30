@@ -37,6 +37,8 @@ public class LoginActivity extends BaseActivity implements LoginView {
 	Button btnRegister;
 	@BindView(R.id.tv_pwd)
 	TextView tvPwd;
+	@BindView(R.id.et_pwd)
+	EditText etPwd;
 
 
 	@Subscribe
@@ -53,8 +55,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
 		RxView.clicks(btnNext).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
 			@Override
 			public void call(Void aVoid) {
-//				presenter.Login();
-				goMain();
+				presenter.Login();
 			}
 		});
 		RxView.clicks(btnRegister).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {
@@ -66,20 +67,25 @@ public class LoginActivity extends BaseActivity implements LoginView {
 		presenter.IsLogin();
 	}
 
-
 	@Override
-	public String getId() {
+	public String getUsername() {
 		return editId.getText().toString().trim();
 	}
 
 	@Override
+	public String getPassword() {
+		return etPwd.getText().toString().trim();
+	}
+
+	@Override
 	public void showLoging() {
-		LoadingDialog.showLoading(this, "正在获取信息...", true);
+		LoadingDialog.showLoading(this, "登录...", true);
 	}
 
 	@Override
 	public void loginSuccese(String msg) {
 		LoadingDialog.disDialog();
+		showMsg(msg);
 		goMain();
 	}
 

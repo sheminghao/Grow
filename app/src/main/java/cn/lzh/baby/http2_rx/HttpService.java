@@ -2,6 +2,7 @@ package cn.lzh.baby.http2_rx;
 
 import java.util.List;
 
+import cn.lzh.baby.http2_rx.Api.UrlConfig;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -41,8 +42,14 @@ public interface HttpService {
     /**
      * 登录接口
      */
-    @POST
-    Observable<String> login(@Body String loginName, @Body String password);
+    @POST("user/login")
+    Observable<String> login(@Query("loginName") String loginName, @Query("password") String password);
+
+    /**
+     * 注册接口
+     */
+    @POST(UrlConfig.REGISTER)
+    Observable<String> register(@Query("loginName") String loginName, @Query("password") String password);
 
     /**
      * 通过 List<MultipartBody.Part> 传入多个part实现多文件上传

@@ -7,9 +7,13 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 public interface LoginView {
 	/**
-	* 获取输入的内容
+	* 获取用户名
 	*/
-	String getId();
+	String getUsername();
+	/**
+	 * 获取密码
+	 */
+	String getPassword();
 	/**
 	* 正在登录
 	*/

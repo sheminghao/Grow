@@ -13,7 +13,7 @@ import butterknife.OnClick;
 import cn.lzh.baby.R;
 import cn.lzh.baby.base.BaseActivity;
 
-public class AttentionActivity extends BaseActivity {
+public class AttentionActivity extends BaseActivity implements AttentionView{
 
     @BindView(R.id.iv_return)
     ImageView ivReturn;

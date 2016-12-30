@@ -19,7 +19,7 @@ public abstract class BaseApi<T> implements Func1<T, String> {
     /*是否需要缓存处理*/
     private boolean cache=true;
     /*基础url*/
-    private  String baseUrl="http://120.76.234.53:8081/grow/api/";
+    private  String baseUrl="http://169.254.238.198:8060/grow/api/";
     /*方法-如果需要缓存必须设置这个参数；不需要不用設置*/
     private String mothed;
     /*超时时间-默认6秒*/

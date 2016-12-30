@@ -8,7 +8,13 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 public interface RegisterView {
 
-    void register();
+    void registerSucceed();
+    void registerFail(String msg);
+    String getUsername();
+    String getPassword();
+    String getConfirmPassword();
+    void showMsg(String msg);
+    void showLoging();
 
     /**
      * 返回当前的activity

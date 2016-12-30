@@ -1,9 +1,12 @@
 package cn.lzh.baby.ui.register;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
@@ -14,6 +17,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.lzh.baby.R;
 import cn.lzh.baby.base.BaseActivity;
+import cn.lzh.baby.ui.home.MainActivity;
+import cn.lzh.baby.utils.tools.T;
+import cn.lzh.baby.utils.view.LoadingDialog;
 import rx.functions.Action1;
 
 public class RegisterActivity extends BaseActivity implements RegisterView{
@@ -26,6 +32,12 @@ public class RegisterActivity extends BaseActivity implements RegisterView{
     TextView tvPwd;
     @BindView(R.id.tv_confirm_pwd)
     TextView tvConfirmPwd;
+    @BindView(R.id.et_username)
+    EditText etUsername;
+    @BindView(R.id.et_pwd)
+    EditText etPwd;
+    @BindView(R.id.et_confirm_pwd)
+    EditText etConfirmPwd;
     RegisterPresenter presenter;
 
     @Override
@@ -47,8 +59,40 @@ public class RegisterActivity extends BaseActivity implements RegisterView{
     }
 
     @Override
-    public void register() {
-        finish();
+    public void registerSucceed() {
+        LoadingDialog.disDialog();
+        showMsg("注册成功!");
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    @Override
+    public void registerFail(String msg) {
+        LoadingDialog.disDialog();
+    }
+
+    @Override
+    public String getUsername() {
+        return etUsername.getText().toString().trim();
+    }
+
+    @Override
+    public String getPassword() {
+        return etPwd.getText().toString().trim();
+    }
+
+    @Override
+    public String getConfirmPassword() {
+        return etConfirmPwd.getText().toString().trim();
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        T.show(this, msg, Toast.LENGTH_SHORT);
+    }
+
+    @Override
+    public void showLoging() {
+        LoadingDialog.showLoading(this, "加载中...", true);
     }
 
     @Override

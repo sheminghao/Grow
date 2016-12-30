@@ -1,10 +1,16 @@
 package cn.lzh.baby.ui.login;
 
+import android.text.TextUtils;
+import android.util.Log;
+
 import cn.lzh.baby.api.FindBabyApi;
+import cn.lzh.baby.api.LoginApi;
 import cn.lzh.baby.http2_rx.HttpManager;
 import cn.lzh.baby.http2_rx.listener.HttpOnNextListener;
 import cn.lzh.baby.modle.Baby;
+import cn.lzh.baby.modle.LoginInfo;
 import cn.lzh.baby.utils.app.UserUitls;
+import cn.lzh.baby.utils.json.GsonKit;
 import cn.lzh.baby.utils.tools.EmptyUtils;
 
 
@@ -30,15 +36,20 @@ public class LoginPresenter implements HttpOnNextListener{
 	}
 
 	public void Login(){
-		String id=loginView.getId();
-		if (check(id)){
-			//调用接口登录
-			loginView.showLoging();
-			FindBabyApi api=new FindBabyApi(id);
-			manager.doHttpDeal(api);
-		}else{
-			loginView.showMsg("请先输入宝宝的ID!");
+		String userName = loginView.getUsername();
+		String password = loginView.getPassword();
+		if (TextUtils.isEmpty(userName)) {
+			loginView.showMsg("请输入用户名!");
+			return;
 		}
+		if (TextUtils.isEmpty(password)) {
+			loginView.showMsg("请输入密码!");
+			return;
+		}
+		//调用接口登录
+		loginView.showLoging();
+		LoginApi api=new LoginApi(userName, password);
+		manager.doHttpDeal(api);
 	}
 
 	/**
@@ -52,10 +63,13 @@ public class LoginPresenter implements HttpOnNextListener{
 
 	@Override
 	public void onNext(String result, String mothead) {
-		Baby baby=new Baby();
-		baby.setId(loginView.getId());
-		UserUitls.saveBabyInfo(baby);
-		loginView.loginSuccese("登录成功！");
+		LoginInfo loginInfo = (LoginInfo) GsonKit.jsonToBean(result, LoginInfo.class);
+		if (loginInfo.getCode() == 1) {
+			UserUitls.saveLoginInfo(loginInfo);
+			loginView.loginSuccese("登录成功！");
+		}else {
+			loginView.showMsg(loginInfo.getMessage());
+		}
 	}
 
 	@Override

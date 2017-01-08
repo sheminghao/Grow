@@ -52,6 +52,12 @@ public interface HttpService {
     Observable<String> register(@Query("loginName") String loginName, @Query("password") String password);
 
     /**
+     * 首页接口
+     */
+    @POST(UrlConfig.MAININFO)
+    Observable<String> mainInfo(@Query("token") String token);
+
+    /**
      * 通过 List<MultipartBody.Part> 传入多个part实现多文件上传
      * @param parts 每个part代表一个 使用@Multipart注解方法，并用@Part注解方法参数，类型是List< okhttp3.MultipartBody.Part>
      * @return 状态信息

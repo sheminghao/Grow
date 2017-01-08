@@ -15,4 +15,9 @@ public class UrlConfig {
      */
     public static final String REGISTER = "user/register";
 
+    /**
+     * 首页
+     */
+    public static final String MAININFO = "main/mainInfo";
+
 }

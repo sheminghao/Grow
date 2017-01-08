@@ -2,32 +2,17 @@ package cn.lzh.baby.ui.home;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.TransitionDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
-import cn.lzh.baby.R;
-import cn.lzh.baby.adapter.PageAdapter;
-import cn.lzh.baby.base.BaseActivity;
-import cn.lzh.baby.ui.babyInfo.BabyInfoActivity;
-import cn.lzh.baby.ui.publishMood.PublishMoodActivity;
-import cn.lzh.baby.ui.publishprivate.PublishPrivateActivity;
-import cn.lzh.baby.utils.tools.DensityUtils;
-import cn.lzh.baby.utils.tools.L;
-import cn.lzh.baby.utils.view.MyPopupWindow;
-import cn.lzh.baby.views.MyViewPager;
 import com.jakewharton.rxbinding.view.RxView;
 
 import org.xutils.common.util.DensityUtil;
@@ -36,9 +21,25 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.lzh.baby.R;
+import cn.lzh.baby.adapter.PageAdapter;
+import cn.lzh.baby.api.MainApi;
+import cn.lzh.baby.base.BaseActivity;
+import cn.lzh.baby.http2_rx.HttpManager;
+import cn.lzh.baby.http2_rx.listener.HttpOnNextListener;
+import cn.lzh.baby.modle.MainInfo;
+import cn.lzh.baby.ui.babyInfo.BabyInfoActivity;
+import cn.lzh.baby.ui.publishMood.PublishMoodActivity;
+import cn.lzh.baby.ui.publishprivate.PublishPrivateActivity;
+import cn.lzh.baby.utils.app.UserUitls;
+import cn.lzh.baby.utils.json.GsonKit;
+import cn.lzh.baby.utils.tools.DensityUtils;
+import cn.lzh.baby.utils.tools.L;
+import cn.lzh.baby.utils.view.MyPopupWindow;
+import cn.lzh.baby.views.MyViewPager;
 import rx.functions.Action1;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements HttpOnNextListener {
 
 	@BindView(R.id.iv_baby)
 	ImageView ivBaby;
@@ -48,9 +49,16 @@ public class MainActivity extends BaseActivity {
 	MyViewPager mViewPager;
 	@BindView(R.id.fab)
 	FloatingActionButton fab;
+	@BindView(R.id.tv_baby_name)
+	TextView tvBabyName;
+	@BindView(R.id.tv_baby_sex)
+	TextView tvBabySex;
+	@BindView(R.id.tv_baby_birth)
+	TextView tvBabyBirth;
 	private ArrayList<Fragment> fragmentList;
 	private PageAdapter pageAdapter;
 	private MyPopupWindow pop;
+	private HttpManager manager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,9 +67,14 @@ public class MainActivity extends BaseActivity {
 		ButterKnife.bind(this);
 		setmViewPager();
 		setFabEvent();
-
+		initData();
 	}
 
+	private void initData(){
+		manager=new HttpManager(this,MainActivity.this);
+		MainApi api=new MainApi(UserUitls.getLoginInfo().getToken()+"");
+		manager.doHttpDeal(api);
+	}
 
 	private void setFabEvent(){
 		RxView.clicks(fab).subscribe(new Action1<Void>() {
@@ -188,6 +201,19 @@ public class MainActivity extends BaseActivity {
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public void onNext(String result, String mothead) {
+		MainInfo mainInfo = (MainInfo) GsonKit.jsonToBean(result, MainInfo.class);
+		tvBabyName.setText(mainInfo.getDatum().getNickname());
+		tvBabySex.setText(mainInfo.getDatum().getSex());
+		tvBabyBirth.setText(mainInfo.getDatum().getBirthday());
+	}
+
+	@Override
+	public void onError(Throwable e) {
+
 	}
 }
 

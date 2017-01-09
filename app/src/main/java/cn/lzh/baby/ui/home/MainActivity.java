@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
@@ -28,6 +29,7 @@ import cn.lzh.baby.base.BaseActivity;
 import cn.lzh.baby.http2_rx.HttpManager;
 import cn.lzh.baby.http2_rx.listener.HttpOnNextListener;
 import cn.lzh.baby.modle.MainInfo;
+import cn.lzh.baby.ui.attention.AttentionActivity;
 import cn.lzh.baby.ui.babyInfo.BabyInfoActivity;
 import cn.lzh.baby.ui.publishMood.PublishMoodActivity;
 import cn.lzh.baby.ui.publishprivate.PublishPrivateActivity;
@@ -71,7 +73,7 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	}
 
 	private void initData(){
-		manager=new HttpManager(this,MainActivity.this);
+		manager=new HttpManager(this, this);
 		MainApi api=new MainApi(UserUitls.getLoginInfo().getToken()+"");
 		manager.doHttpDeal(api);
 	}
@@ -127,7 +129,7 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 		pop.setViewListener(R.id.ly_mine, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(MainActivity.this, PublishPrivateActivity.class));
+				startActivity(new Intent(MainActivity.this, AttentionActivity.class));
 				pop.dismiss();
 			}
 		});
@@ -213,7 +215,6 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 
 	@Override
 	public void onError(Throwable e) {
-
 	}
 }
 

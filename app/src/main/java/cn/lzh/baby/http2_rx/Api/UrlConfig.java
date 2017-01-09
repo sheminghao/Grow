@@ -20,4 +20,14 @@ public class UrlConfig {
      */
     public static final String MAININFO = "main/mainInfo";
 
+    /**
+     * 添加私密日记
+     */
+    public static final String ADD_DIARY = "diary/add";
+
+    /**
+     * 宝宝列表接口
+     */
+    public static final String USER_BABY_LIST  = "baby/userBabyList";
+
 }

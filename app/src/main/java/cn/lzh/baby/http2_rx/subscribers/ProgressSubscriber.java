@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ParseException;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonParseException;
@@ -121,6 +122,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
      */
     @Override
     public void onStart() {
+        Log.i("TAG", "======url:" + api.getUrl());
         showProgressDialog();
         /*缓存并且有网*/
         if(api.isCache()&& AppUtil.isNetworkAvailable(APP.app)){
@@ -155,6 +157,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
      */
     @Override
     public void onError(Throwable e) {
+        Log.i("TAG", "======Error:" + e.toString());
         dismissProgressDialog();
         /*需要緩存并且本地有缓存才返回*/
         if(api.isCache()){

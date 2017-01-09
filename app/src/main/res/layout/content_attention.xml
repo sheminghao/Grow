@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:orientation="vertical"
+    android:background="@color/whitesmoke"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="cn.lzh.baby.ui.attention.AttentionActivity"
+    tools:showIn="@layout/activity_attention">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,14 +25,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="添加关注"/>
+            android:text="关注宝宝"/>
 
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/iRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" >
 
     </android.support.v7.widget.RecyclerView>
 

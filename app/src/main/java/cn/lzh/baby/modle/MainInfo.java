@@ -1,7 +1,5 @@
 package cn.lzh.baby.modle;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 /**
@@ -16,17 +14,7 @@ public class MainInfo extends BaseInfo{
      * datum : {"dynamic":[{"babyNickname":"3","location":null,"type":"1","url":null,"give_flag":"0","id":5,"content":"5庆祝","baby_id":3,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":2,"appellation":null,"give_num":0},{"babyNickname":"玉宇","location":null,"type":"1","url":null,"give_flag":"0","id":4,"content":"4庆祝","baby_id":2,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":3,"appellation":null,"give_num":0}],"timeAxis":["2016-12"],"birthday":"2016-12-28","sex":"女宝宝","videoNum":"0","nickname":"果果","babyId":"0","picNum":"0","portrait":""}
      */
 
-    @SerializedName("message")
-    private Object messageX;
     private DatumBean datum;
-
-    public Object getMessageX() {
-        return messageX;
-    }
-
-    public void setMessageX(Object messageX) {
-        this.messageX = messageX;
-    }
 
     public DatumBean getDatum() {
         return datum;
@@ -149,17 +137,17 @@ public class MainInfo extends BaseInfo{
              */
 
             private String babyNickname;
-            private Object location;
+            private String location;
             private String type;
-            private Object url;
+            private String url;
             private String give_flag;
             private int id;
             private String content;
             private int baby_id;
-            private Object userPortrait;
+            private String userPortrait;
             private String create_date;
             private int user_id;
-            private Object appellation;
+            private String appellation;
             private int give_num;
 
             public String getBabyNickname() {
@@ -170,11 +158,11 @@ public class MainInfo extends BaseInfo{
                 this.babyNickname = babyNickname;
             }
 
-            public Object getLocation() {
+            public String getLocation() {
                 return location;
             }
 
-            public void setLocation(Object location) {
+            public void setLocation(String location) {
                 this.location = location;
             }
 
@@ -186,11 +174,11 @@ public class MainInfo extends BaseInfo{
                 this.type = type;
             }
 
-            public Object getUrl() {
+            public String getUrl() {
                 return url;
             }
 
-            public void setUrl(Object url) {
+            public void setUrl(String url) {
                 this.url = url;
             }
 
@@ -226,11 +214,11 @@ public class MainInfo extends BaseInfo{
                 this.baby_id = baby_id;
             }
 
-            public Object getUserPortrait() {
+            public String getUserPortrait() {
                 return userPortrait;
             }
 
-            public void setUserPortrait(Object userPortrait) {
+            public void setUserPortrait(String userPortrait) {
                 this.userPortrait = userPortrait;
             }
 
@@ -250,11 +238,11 @@ public class MainInfo extends BaseInfo{
                 this.user_id = user_id;
             }
 
-            public Object getAppellation() {
+            public String getAppellation() {
                 return appellation;
             }
 
-            public void setAppellation(Object appellation) {
+            public void setAppellation(String appellation) {
                 this.appellation = appellation;
             }
 

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">grow</string>
+    <string name="text_username">shemh</string>
+    <string name="text_password">123456</string>
     <string name="action_settings">Settings</string>
     <string name="mama">妈妈</string>
     <string name="father">爸爸</string>

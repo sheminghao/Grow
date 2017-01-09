@@ -8,16 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cn.lzh.baby.R;
-import cn.lzh.baby.adapter.DiaryAdapter;
-import cn.lzh.baby.base.BaseFragment;
-import cn.lzh.baby.utils.tools.L;
-import cn.lzh.baby.views.MyLinearLayoutManager;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.lzh.baby.R;
+import cn.lzh.baby.adapter.DiaryAdapter;
+import cn.lzh.baby.base.BaseFragment;
+import cn.lzh.baby.utils.tools.L;
 
 /**
  * 日记

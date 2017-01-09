@@ -13,7 +13,6 @@ import android.widget.TextView;
 import cn.lzh.baby.R;
 import cn.lzh.baby.base.BaseActivity;
 import cn.lzh.baby.modle.Baby;
-import cn.lzh.baby.ui.home.MainActivity;
 import cn.lzh.baby.ui.splash.SplashActivity;
 import cn.lzh.baby.utils.app.UserUitls;
 import cn.lzh.baby.utils.tools.EmptyUtils;

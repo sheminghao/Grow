@@ -12,7 +12,6 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
@@ -56,6 +55,21 @@ public interface HttpService {
      */
     @POST(UrlConfig.MAININFO)
     Observable<String> mainInfo(@Query("token") String token);
+
+    /**
+     * 添加私密日记
+     */
+    @POST(UrlConfig.ADD_DIARY)
+    Observable<String> addDiary(@Query("content") String content,
+                                @Query("location") String location,
+                                @Query("spend") String spend,
+                                @Query("token") String token);
+
+    /**
+     * 宝宝列表
+     */
+    @POST(UrlConfig.USER_BABY_LIST)
+    Observable<String> userBabylist(@Query("token") String token);
 
     /**
      * 通过 List<MultipartBody.Part> 传入多个part实现多文件上传

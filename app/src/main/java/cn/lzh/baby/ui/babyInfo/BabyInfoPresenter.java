@@ -2,8 +2,9 @@ package cn.lzh.baby.ui.babyInfo;
 
 import android.text.TextUtils;
 
+import java.io.File;
+
 import cn.lzh.baby.api.AddBabyApi;
-import cn.lzh.baby.api.UploadApi;
 import cn.lzh.baby.api.UploadImageApi;
 import cn.lzh.baby.http2_rx.Api.BaseResultEntity;
 import cn.lzh.baby.http2_rx.HttpManager;
@@ -15,9 +16,6 @@ import cn.lzh.baby.utils.app.UserUitls;
 import cn.lzh.baby.utils.json.GsonKit;
 import cn.lzh.baby.utils.tools.EmptyUtils;
 import cn.lzh.baby.utils.tools.L;
-
-import java.io.File;
-
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;

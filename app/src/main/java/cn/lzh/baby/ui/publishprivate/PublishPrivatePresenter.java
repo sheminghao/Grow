@@ -1,9 +1,12 @@
 package cn.lzh.baby.ui.publishprivate;
 
+import cn.lzh.baby.api.AddDiaryApi;
 import cn.lzh.baby.api.AddDynamic;
 import cn.lzh.baby.http2_rx.HttpManager;
 import cn.lzh.baby.http2_rx.listener.HttpOnNextListener;
+import cn.lzh.baby.modle.BaseInfo;
 import cn.lzh.baby.utils.app.UserUitls;
+import cn.lzh.baby.utils.json.GsonKit;
 import cn.lzh.baby.utils.tools.EmptyUtils;
 import cn.lzh.baby.utils.tools.T;
 import rx.Observable;
@@ -26,39 +29,36 @@ public class PublishPrivatePresenter implements HttpOnNextListener {
 
 
 	/**
-	* 发布	内容1、图片；2、视频；3、私密日记
+	* 发布 私密日记
 	*/
 	public void publish(){
-		Observable.create(new Observable.OnSubscribe<AddDynamic>() {
+		Observable.create(new Observable.OnSubscribe<AddDiaryApi>() {
 			@Override
-			public void call(Subscriber<? super AddDynamic> subscriber) {
-				AddDynamic api=new AddDynamic();
+			public void call(Subscriber<? super AddDiaryApi> subscriber) {
+				AddDiaryApi api=new AddDiaryApi();
 				String money=view.getMoney();
 				String content=view.getContent();
 				String babyId=getBabyId();
 				String userId=getUserId();
 				String location=getLocation();
-				api.setData(babyId,userId,content,"3",location,money);
+				String token = UserUitls.getLoginInfo().getToken();
+				api.setData(content,location,money,token);
 				subscriber.onNext(api);
 			}
-		}).map(new Func1<AddDynamic, AddDynamic>() {
+		}).map(new Func1<AddDiaryApi, AddDiaryApi>() {
 			@Override
-			public AddDynamic call(AddDynamic addDynamic) {
-				if (EmptyUtils.isEmpty(addDynamic.getContent())){
+			public AddDiaryApi call(AddDiaryApi addDiaryApi) {
+				if (EmptyUtils.isEmpty(addDiaryApi.getContent())){
 					T.show(view.getContext(),"内容不能为空！",0);
 					return null;
 				}
-				if (EmptyUtils.isEmpty(addDynamic.getUrl())){
-					T.show(view.getContext(),"消费金额不能为空！",0);
-					return null;
-				}
-				return addDynamic;
+				return addDiaryApi;
 			}
-		}).subscribe(new Action1<AddDynamic>() {
+		}).subscribe(new Action1<AddDiaryApi>() {
 			@Override
-			public void call(AddDynamic addDynamic) {
-				if (addDynamic!=null) {
-					manager.doHttpDeal(addDynamic);
+			public void call(AddDiaryApi addDiaryApi) {
+				if (addDiaryApi!=null) {
+					manager.doHttpDeal(addDiaryApi);
 				}
 			}
 		});
@@ -70,17 +70,21 @@ public class PublishPrivatePresenter implements HttpOnNextListener {
 
 
 	public String getBabyId(){
-		return UserUitls.getBabyInfo().getId();
+//		return UserUitls.getBabyInfo().getId();
+		return "";
 	}
 
 	public String getUserId(){
-		return UserUitls.getUserInfo().getUserId();
+//		return UserUitls.getUserInfo().getUserId()+"";
+		return "";
 	}
 
 	@Override
 	public void onNext(String result, String mothead) {
-		if (EmptyUtils.isNotEmpty(result)){
-			T.showShort(view.getContext(),result);
+		BaseInfo baseInfo = (BaseInfo) GsonKit.jsonToBean(result, BaseInfo.class);
+		if (baseInfo.getCode() == 1){
+			T.showShort(view.getContext(),baseInfo.getMessage());
+			view.getContext().finish();
 		}else {
 			T.showShort(view.getContext(),"发布失败");
 		}

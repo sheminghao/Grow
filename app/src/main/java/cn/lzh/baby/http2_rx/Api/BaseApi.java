@@ -3,6 +3,7 @@ package cn.lzh.baby.http2_rx.Api;
 
 import cn.lzh.baby.http2_rx.HttpService;
 import cn.lzh.baby.http2_rx.exception.HttpTimeException;
+import cn.lzh.baby.modle.BaseInfo;
 import cn.lzh.baby.utils.json.GsonKit;
 import cn.lzh.baby.utils.tools.L;
 import rx.Observable;
@@ -110,9 +111,9 @@ public abstract class BaseApi<T> implements Func1<T, String> {
     @Override
     public String call(T httpResult) {
         L.i("httpResult=---->" + httpResult.toString());
-        BaseResultEntity baseResulte= (BaseResultEntity) GsonKit.jsonToBean(httpResult.toString(),BaseResultEntity.class);
+        BaseInfo baseResulte= (BaseInfo) GsonKit.jsonToBean(httpResult.toString(),BaseInfo.class);
         if (baseResulte.getCode() == 0) {
-            throw new HttpTimeException(baseResulte.getMsg());
+            throw new HttpTimeException(baseResulte.getMessage());
         }
         if (baseResulte.getCode()==1){
             return httpResult.toString();

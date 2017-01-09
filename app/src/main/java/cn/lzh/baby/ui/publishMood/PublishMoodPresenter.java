@@ -1,6 +1,8 @@
 package cn.lzh.baby.ui.publishMood;
 
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,7 +12,9 @@ import cn.lzh.baby.api.AddDynamic;
 import cn.lzh.baby.api.UploadApi;
 import cn.lzh.baby.http2_rx.HttpManager;
 import cn.lzh.baby.http2_rx.listener.HttpOnNextListener;
+import cn.lzh.baby.modle.BaseInfo;
 import cn.lzh.baby.utils.app.UserUitls;
+import cn.lzh.baby.utils.json.GsonKit;
 import cn.lzh.baby.utils.tools.EmptyUtils;
 import cn.lzh.baby.utils.tools.T;
 import okhttp3.MediaType;
@@ -22,7 +26,6 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
- * Created by shetj on 2016/12/11.
  */
 
 public class PublishMoodPresenter implements HttpOnNextListener{
@@ -37,6 +40,10 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 	 * 上传多张图片
 	 */
 	public void uploadImage(){
+		if (view.getUploadImage().size() == 0){
+			T.show(view.getContext(),"请选择图片！",0);
+			return;
+		}
 		Observable.create(new Observable.OnSubscribe<UploadApi>() {
 			@Override
 			public void call(Subscriber<? super UploadApi> subscriber) {
@@ -67,7 +74,8 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 				String userId=getUserId();
 				String location=view.getLoction();
 				String url=getUrl(urls);
-				api.setData(babyId,userId,content,"3",location,url);
+				api.setData(babyId,userId,content,"1",location,url);
+				Log.i("TAG", "======"+api.toString());
 				subscriber.onNext(api);
 			}
 		}).map(new Func1<AddDynamic, AddDynamic>() {
@@ -102,7 +110,7 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 	}
 
 	private String getUserId() {
-		return UserUitls.getUserInfo().getUserId();
+		return UserUitls.getLoginInfo().getInfo().getId()+"";
 	}
 
 	private String getBabyId() {
@@ -116,9 +124,12 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 	private  MultipartBody filesToMultipartBody(List<File> files) {
 		MultipartBody.Builder builder = new MultipartBody.Builder();
 
-		for (File file : files) {
-			RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-			builder.addFormDataPart("file", file.getName(), requestBody);
+//		for (File file : files) {
+//
+//		}
+		for (int i = 0; i < files.size(); i++) {
+			RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), files.get(i));
+			builder.addFormDataPart("file"+i, files.get(i).getName(), requestBody);
 		}
 		builder.setType(MultipartBody.FORM);
 		MultipartBody multipartBody = builder.build();
@@ -143,10 +154,17 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 	@Override
 	public void onNext(String result, String mothead) {
 		if (result!=null){
+			BaseInfo baseInfo = (BaseInfo) GsonKit.jsonToBean(result, BaseInfo.class);
 			if (TextUtils.equals(mothead,"file/upload")){
-
+				Log.i("TAG", "======"+result);
+				List<String> urls = new ArrayList<>();
+				publish(urls);
 			}else{
-
+				if (baseInfo.getCode() == 1) {
+					Toast.makeText(view.getContext(), "发布成功", Toast.LENGTH_SHORT).show();
+				}else{
+					Toast.makeText(view.getContext(), "发布失败", Toast.LENGTH_SHORT).show();
+				}
 			}
 		}
 	}

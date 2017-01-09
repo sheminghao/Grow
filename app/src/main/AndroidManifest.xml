@@ -84,6 +84,8 @@
         </activity>
         <activity android:name=".ui.attention.AttentionActivity">
         </activity>
+        <activity android:name=".ui.InvitationCode.InvitationCodeActivity">
+        </activity>
     </application>
 
 </manifest>

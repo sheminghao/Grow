@@ -51,7 +51,7 @@ public class SelectedAdapter extends BaseAdapter<String, SelectedAdapter.ViewHol
 
     @Override
     public int getItemViewType(int position) {
-        if (position<data.size()&&position<6){
+        if (position<data.size()&&position<9){
             return 0;
         }
         return 1;

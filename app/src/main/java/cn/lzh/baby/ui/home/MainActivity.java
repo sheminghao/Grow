@@ -28,6 +28,7 @@ import cn.lzh.baby.api.MainApi;
 import cn.lzh.baby.base.BaseActivity;
 import cn.lzh.baby.http2_rx.HttpManager;
 import cn.lzh.baby.http2_rx.listener.HttpOnNextListener;
+import cn.lzh.baby.modle.Baby;
 import cn.lzh.baby.modle.MainInfo;
 import cn.lzh.baby.ui.attention.AttentionActivity;
 import cn.lzh.baby.ui.babyInfo.BabyInfoActivity;
@@ -55,8 +56,14 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	TextView tvBabyName;
 	@BindView(R.id.tv_baby_sex)
 	TextView tvBabySex;
+	@BindView(R.id.img_sex)
+	ImageView imgSex;
 	@BindView(R.id.tv_baby_birth)
 	TextView tvBabyBirth;
+	@BindView(R.id.tv_video_num)
+	TextView tvVideoNum;
+	@BindView(R.id.tv_pic_num)
+	TextView tvPicNum;
 	private ArrayList<Fragment> fragmentList;
 	private PageAdapter pageAdapter;
 	private MyPopupWindow pop;
@@ -152,30 +159,6 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 		fragmentList.add(DiaryFragment.newInstance("10月"));
 		fragmentList.add(DiaryFragment.newInstance("11月"));
 		fragmentList.add(DiaryFragment.newInstance("12月"));
-		fragmentList.add(DiaryFragment.newInstance("1月"));
-		fragmentList.add(DiaryFragment.newInstance("2月"));
-		fragmentList.add(DiaryFragment.newInstance("3月"));
-		fragmentList.add(DiaryFragment.newInstance("4月"));
-		fragmentList.add(DiaryFragment.newInstance("5月"));
-		fragmentList.add(DiaryFragment.newInstance("6月"));
-		fragmentList.add(DiaryFragment.newInstance("7月"));
-		fragmentList.add(DiaryFragment.newInstance("8月"));
-		fragmentList.add(DiaryFragment.newInstance("9月"));
-		fragmentList.add(DiaryFragment.newInstance("10月"));
-		fragmentList.add(DiaryFragment.newInstance("11月"));
-		fragmentList.add(DiaryFragment.newInstance("12月"));
-		fragmentList.add(DiaryFragment.newInstance("1月"));
-		fragmentList.add(DiaryFragment.newInstance("2月"));
-		fragmentList.add(DiaryFragment.newInstance("3月"));
-		fragmentList.add(DiaryFragment.newInstance("4月"));
-		fragmentList.add(DiaryFragment.newInstance("5月"));
-		fragmentList.add(DiaryFragment.newInstance("6月"));
-		fragmentList.add(DiaryFragment.newInstance("7月"));
-		fragmentList.add(DiaryFragment.newInstance("8月"));
-		fragmentList.add(DiaryFragment.newInstance("9月"));
-		fragmentList.add(DiaryFragment.newInstance("10月"));
-		fragmentList.add(DiaryFragment.newInstance("11月"));
-		fragmentList.add(DiaryFragment.newInstance("12月"));
 		pageAdapter = new PageAdapter(getSupportFragmentManager(), fragmentList);
 		mViewPager.setAdapter(pageAdapter);
 		mViewPager.setPageMargin(pageMargin);
@@ -208,9 +191,36 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	@Override
 	public void onNext(String result, String mothead) {
 		MainInfo mainInfo = (MainInfo) GsonKit.jsonToBean(result, MainInfo.class);
-		tvBabyName.setText(mainInfo.getDatum().getNickname());
-		tvBabySex.setText(mainInfo.getDatum().getSex());
-		tvBabyBirth.setText(mainInfo.getDatum().getBirthday());
+		if (null != mainInfo && null != mainInfo.getDatum()) {
+			if (mainInfo.getCode() == 1) {
+				Baby baby = new Baby();
+				baby.setNickname(mainInfo.getDatum().getNickname());
+				baby.setSex(mainInfo.getDatum().getSex());
+				baby.setId(mainInfo.getDatum().getBabyId());
+				baby.setBirthday(mainInfo.getDatum().getBirthday());
+				baby.setPortrait(mainInfo.getDatum().getPortrait());
+				UserUitls.saveBabyInfo(baby);
+
+				tvBabyName.setText(mainInfo.getDatum().getNickname());
+				String sex = "";
+				if ("1".equals(mainInfo.getDatum().getSex())){
+					sex = "男宝宝";
+					imgSex.setImageResource(R.mipmap.nan);
+				}else if("2".equals(mainInfo.getDatum().getSex())){
+					sex = "女宝宝";
+					imgSex.setImageResource(R.mipmap.nv);
+				}else {
+					sex = mainInfo.getDatum().getSex();
+				}
+				tvBabySex.setText(sex);
+				tvBabyBirth.setText(mainInfo.getDatum().getBirthday());
+
+				tvVideoNum.setText(mainInfo.getDatum().getVideoNum());
+				tvPicNum.setText(mainInfo.getDatum().getPicNum());
+			}else if (mainInfo.getCode() == 422){
+
+			}
+		}
 	}
 
 	@Override

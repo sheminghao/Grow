@@ -68,7 +68,7 @@ public class PublishMoodActivity extends BaseActivity implements PublishView {
 	}
 
 	private void initView() {
-		IPicker.setLimit(7);
+		IPicker.setLimit(9);
 		IPicker.setCropEnable(false);
 		IPicker.setOnSelectedListener(new IPicker.OnSelectedListener() {
 			@Override

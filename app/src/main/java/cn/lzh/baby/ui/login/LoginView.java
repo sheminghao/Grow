@@ -5,7 +5,7 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 /**
  */
 
-public interface LoginView {
+public interface LoginView{
 	/**
 	* 获取用户名
 	*/

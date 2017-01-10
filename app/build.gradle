@@ -10,16 +10,46 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        // dex突破65535的限制
-        multiDexEnabled true
+    }
 
+    signingConfigs {
+        release {
+            keyAlias 'grow'
+            keyPassword 'growapp'
+            storeFile file('./grow.jks')
+            storePassword 'growapp'
+        }
     }
     buildTypes {
         release {
+            debuggable false
+            //混淆
             minifyEnabled false
-
+            zipAlignEnabled true
+            // dex突破65535的限制
+            multiDexEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.release
+            //混淆
+            minifyEnabled false
+            //Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            // dex突破65535的限制
+            multiDexEnabled true
+//            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
@@ -34,14 +64,18 @@ allprojects {
 apply plugin: 'com.neenbedankt.android-apt'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-//    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    })
+    //    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+
+    //        exclude group: 'com.android.support', module: 'support-annotations'
+
+    //    })
     compile('com.trello:rxlifecycle-components:1.0') {
         exclude module: 'appcompat-v7'
     }
-    compile 'com.android.support:appcompat-v7:23.4.0'
     testCompile 'junit:junit:4.12'
+    compile project(':pagerSlidingTabStrip')
+    compile files('libs/AMap3DMap_4.1.3_Location_3.2.0_20161208.jar')
+    compile 'com.android.support:appcompat-v7:23.4.0'
     compile 'org.xutils:xutils:3.3.40'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:cardview-v7:23.4.0'
@@ -57,7 +91,6 @@ dependencies {
     compile 'com.zhousf.lib:okhttp3:2.5'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.youth.banner:banner:1.4.4'
-    //    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
@@ -65,15 +98,14 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding-design:0.4.0'
     compile 'io.reactivex:rxjava:1.2.3'
     compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'org.xutils:xutils:3.3.38'
     compile 'com.lovedise:permissiongen:0.0.6'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
-    testCompile 'junit:junit:4.12'
     compile 'com.dou361.ijkplayer:jjdxm-ijkplayer:1.0.6'
     compile 'com.dou361.ijkplayer-arm64:jjdxm-ijkplayer-arm64:1.0.0'
     compile 'com.dou361.ijkplayer-x86:jjdxm-ijkplayer-x86:1.0.0'
-    compile project(':pagerSlidingTabStrip')
     compile 'com.liuguangqiang.ipicker:library:1.0.1'
+    compile 'com.google.zxing:core:3.3.0'
+    testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 }

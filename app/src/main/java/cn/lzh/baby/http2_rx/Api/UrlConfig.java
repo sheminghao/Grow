@@ -6,6 +6,9 @@ package cn.lzh.baby.http2_rx.Api;
 
 public class UrlConfig {
 
+    /*基础url*/
+    public static final String URL="http://120.76.234.53:1111/grow/api/";
+
     /**
      * 登录
      */

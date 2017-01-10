@@ -1,5 +1,6 @@
 package cn.lzh.baby.ui.attention;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import cn.lzh.baby.R;
 import cn.lzh.baby.adapter.AttentionAdapter;
 import cn.lzh.baby.base.BaseActivity;
 import cn.lzh.baby.modle.UserBabyList;
+import cn.lzh.baby.ui.addBaby.AddBabyActivity;
 import cn.lzh.baby.utils.view.LoadingDialog;
 
 public class AttentionActivity extends BaseActivity implements AttentionView{
@@ -30,6 +32,10 @@ public class AttentionActivity extends BaseActivity implements AttentionView{
     TextView tvTitle;
     @BindView(R.id.tv_right)
     TextView tvRight;
+    @BindView(R.id.btn_add_baby)
+    TextView btnAddBaby;
+    @BindView(R.id.btn_attention_baby)
+    TextView btnAttentionBaby;
     @BindView(R.id.iRecyclerView)
     RecyclerView recyclerView;
 
@@ -55,11 +61,24 @@ public class AttentionActivity extends BaseActivity implements AttentionView{
         loadData();
     }
 
-    @OnClick({R.id.iv_return})
+    @Override
+    public void onResume() {
+        super.onResume();
+        if ("add".equals(getIntent().getStringExtra("flag"))) {
+            loadData();
+        }
+    }
+
+    @OnClick({R.id.iv_return,R.id.btn_add_baby,R.id.btn_attention_baby})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_return:
                 finish();
+                break;
+            case R.id.btn_add_baby://添加宝宝
+                startActivity(new Intent(this, AddBabyActivity.class));
+                break;
+            case R.id.btn_attention_baby://关注宝宝
                 break;
         }
     }

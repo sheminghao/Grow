@@ -7,7 +7,6 @@ import org.xutils.x;
 
 
 /**
- * Created by shetj on 2016/11/17.
  */
 
 public class APP extends Application{

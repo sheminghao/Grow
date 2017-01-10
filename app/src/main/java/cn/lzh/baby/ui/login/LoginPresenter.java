@@ -26,7 +26,7 @@ public class LoginPresenter implements HttpOnNextListener{
 	}
 
 	public void IsLogin(){
-		if (UserUitls.getBabyInfo()!=null){
+		if (UserUitls.getLoginInfo()!=null){
 			loginView.goMain();
 		}
 	}

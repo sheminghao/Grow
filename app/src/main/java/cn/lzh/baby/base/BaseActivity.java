@@ -14,6 +14,8 @@ import com.umeng.analytics.MobclickAgent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.UUID;
+
 import butterknife.ButterKnife;
 import cn.lzh.baby.AppManager;
 import cn.lzh.baby.R;
@@ -105,6 +107,12 @@ public abstract class BaseActivity extends RxAppCompatActivity {
   public void finish() {// 设置回退动画
     super.finish();
     endAnimation();
+  }
+
+  public String getMyUUID(){
+    UUID uuid = UUID.randomUUID();
+    String uniqueId = uuid.toString();
+    return uniqueId;
   }
 
 

@@ -3,8 +3,13 @@ package cn.lzh.baby;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 
 import java.util.Stack;
+
+import cn.lzh.baby.ui.login.LoginActivity;
+import cn.lzh.baby.utils.app.UserUitls;
 
 /**
  * 应用程序Activity管理类：用于Activity管理和应用程序退出
@@ -98,6 +103,19 @@ public class AppManager {
       activityMgr.killBackgroundProcesses(context.getPackageName());
       System.exit(0);
     } catch (Exception e) {
+    }
+  }
+
+  /**
+   * 退出应用程序
+   */
+  public void exitLogin(Context context) {
+    try {
+      UserUitls.clearLoginInfo();
+      context.startActivity(new Intent(context, LoginActivity.class));
+      finishAllActivity();
+    } catch (Exception e) {
+      Log.i("Tag", "------exit"+e.toString());
     }
   }
 

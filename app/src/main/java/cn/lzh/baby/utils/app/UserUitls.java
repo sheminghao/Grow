@@ -64,4 +64,8 @@ public class UserUitls {
 		}
 	}
 
+	public static void clearLoginInfo(){
+		SPUtils.remove(APP.app, "loginInfo");
+	}
+
 }

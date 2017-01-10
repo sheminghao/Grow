@@ -101,7 +101,8 @@ public interface HttpService {
      */
     @POST("baby/add")
     Observable<String> add(@Query("nickname") String nickname, @Query("sex") String sex,
-                           @Query("birthday") String birthday, @Query("portrait") String portrait);
+                           @Query("birthday") String birthday, @Query("portrait") String portrait,
+                           @Query("appellation") String appellation, @Query("token") String token);
 
     /**
      * 上传文件接口

@@ -132,32 +132,39 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:layout_height="match_parent">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="10"
-                android:gravity="center"
-                android:padding="4dp"
-                android:textColor="@color/themdColor"
-                android:textSize="25dp"/>
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:padding="2dp"
-                    android:src="@mipmap/shiping"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="私密"
-                    android:textSize="16dp"
-                    android:padding="4dp"
-                    android:textColor="@color/gray"/>
-            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/img_qr_code"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center" />
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="10"-->
+                <!--android:gravity="center"-->
+                <!--android:padding="4dp"-->
+                <!--android:textColor="@color/themdColor"-->
+                <!--android:textSize="25dp"/>-->
+            <!--<LinearLayout-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<ImageView-->
+                    <!--android:layout_width="20dp"-->
+                    <!--android:layout_height="20dp"-->
+                    <!--android:padding="2dp"-->
+                    <!--android:src="@mipmap/shiping"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="私密"-->
+                    <!--android:textSize="16dp"-->
+                    <!--android:padding="4dp"-->
+                    <!--android:textColor="@color/gray"/>-->
+            <!--</LinearLayout>-->
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

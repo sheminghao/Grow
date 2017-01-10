@@ -197,6 +197,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
 
     /*错误统一处理*/
     private void errorDo(Throwable e){
+        Log.e("Error", "------"+e.toString());
         Context context = mActivity.get();
         if (context == null) return;
         else if (e instanceof HttpException) {

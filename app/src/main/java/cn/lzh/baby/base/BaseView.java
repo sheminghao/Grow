@@ -8,15 +8,15 @@ import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 public interface BaseView {
 	/**
-	 * 正在登录
+	 * 正在加载
 	 */
 	void showLoging();
 	/**
-	 * 登录成功
+	 * 保存成功
 	 */
 	void loadingSuccese(String msg);
 	/**
-	 * 登录失败
+	 * 保存失败
 	 */
 	void loadingFail(String msg);
 

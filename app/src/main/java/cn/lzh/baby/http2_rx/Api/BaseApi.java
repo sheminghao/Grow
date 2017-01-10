@@ -1,6 +1,8 @@
 package cn.lzh.baby.http2_rx.Api;
 
 
+import cn.lzh.baby.APP;
+import cn.lzh.baby.AppManager;
 import cn.lzh.baby.http2_rx.HttpService;
 import cn.lzh.baby.http2_rx.exception.HttpTimeException;
 import cn.lzh.baby.modle.BaseInfo;
@@ -116,6 +118,9 @@ public abstract class BaseApi<T> implements Func1<T, String> {
             throw new HttpTimeException(baseResulte.getMessage());
         }
         if (baseResulte.getCode()==1){
+            return httpResult.toString();
+        }
+        if (baseResulte.getCode()==422){
             return httpResult.toString();
         }
         return "";

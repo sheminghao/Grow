@@ -1,15 +1,24 @@
 package cn.lzh.baby.ui.home;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +47,8 @@ import cn.lzh.baby.utils.app.UserUitls;
 import cn.lzh.baby.utils.json.GsonKit;
 import cn.lzh.baby.utils.tools.DensityUtils;
 import cn.lzh.baby.utils.tools.L;
+import cn.lzh.baby.utils.tools.QRCodeUtil;
+import cn.lzh.baby.utils.tools.T;
 import cn.lzh.baby.utils.view.MyPopupWindow;
 import cn.lzh.baby.views.MyViewPager;
 import rx.functions.Action1;
@@ -64,6 +75,8 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	TextView tvVideoNum;
 	@BindView(R.id.tv_pic_num)
 	TextView tvPicNum;
+	@BindView(R.id.img_qr_code)
+	ImageView imgQRCode;
 	private ArrayList<Fragment> fragmentList;
 	private PageAdapter pageAdapter;
 	private MyPopupWindow pop;
@@ -86,6 +99,10 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	}
 
 	private void setFabEvent(){
+		Bitmap bitmap = QRCodeUtil.createQRImage(getMyUUID()+getMyUUID(), 200, 200, null, "");
+		if (null != bitmap) {
+			imgQRCode.setImageBitmap(bitmap);
+		}
 		RxView.clicks(fab).subscribe(new Action1<Void>() {
 			@Override
 			public void call(Void aVoid) {
@@ -96,6 +113,37 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 			}
 
 		});
+		RxView.clicks(imgQRCode).subscribe(new Action1<Void>() {
+			@Override
+			public void call(Void aVoid) {
+				Bitmap bitmap = QRCodeUtil.createQRImage(getMyUUID()+getMyUUID(), 200, 200, null, "");
+				if (null != bitmap) {
+					showQRDialog(bitmap);
+				}
+			}
+
+		});
+	}
+
+	private void showQRDialog(Bitmap bitmap){
+		Dialog alterDialog = new Dialog(this);
+		alterDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		alterDialog.setCancelable(true);
+		ImageView imageView = new ImageView(this);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(200, 200);
+		imageView.setLayoutParams(params);
+		imageView.setImageBitmap(bitmap);
+
+		Window dialogWindow = alterDialog.getWindow();
+		dialogWindow.getDecorView().setPadding(0,0,0,0);
+		WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+		lp.width = 320;
+		lp.height = 320;
+		lp.gravity = Gravity.CENTER;
+		dialogWindow.setAttributes(lp);
+
+		alterDialog.setContentView(imageView);
+		alterDialog.show();
 	}
 
 	private void showPop(final int[] positon) {
@@ -140,7 +188,6 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 				pop.dismiss();
 			}
 		});
-
 	}
 	private void setmViewPager() {
 		fragmentList = new ArrayList<>();
@@ -190,41 +237,45 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 
 	@Override
 	public void onNext(String result, String mothead) {
+		Log.i("Tag", "-----main"+result);
 		MainInfo mainInfo = (MainInfo) GsonKit.jsonToBean(result, MainInfo.class);
-		if (null != mainInfo && null != mainInfo.getDatum()) {
 			if (mainInfo.getCode() == 1) {
-				Baby baby = new Baby();
-				baby.setNickname(mainInfo.getDatum().getNickname());
-				baby.setSex(mainInfo.getDatum().getSex());
-				baby.setId(mainInfo.getDatum().getBabyId());
-				baby.setBirthday(mainInfo.getDatum().getBirthday());
-				baby.setPortrait(mainInfo.getDatum().getPortrait());
-				UserUitls.saveBabyInfo(baby);
+                if (null != mainInfo.getDatum()) {
+                    Baby baby = new Baby();
+                    baby.setNickname(mainInfo.getDatum().getNickname());
+                    baby.setSex(mainInfo.getDatum().getSex());
+                    baby.setId(mainInfo.getDatum().getBabyId());
+                    baby.setBirthday(mainInfo.getDatum().getBirthday());
+                    baby.setPortrait(mainInfo.getDatum().getPortrait());
+                    UserUitls.saveBabyInfo(baby);
 
-				tvBabyName.setText(mainInfo.getDatum().getNickname());
-				String sex = "";
-				if ("1".equals(mainInfo.getDatum().getSex())){
-					sex = "男宝宝";
-					imgSex.setImageResource(R.mipmap.nan);
-				}else if("2".equals(mainInfo.getDatum().getSex())){
-					sex = "女宝宝";
-					imgSex.setImageResource(R.mipmap.nv);
-				}else {
-					sex = mainInfo.getDatum().getSex();
-				}
-				tvBabySex.setText(sex);
-				tvBabyBirth.setText(mainInfo.getDatum().getBirthday());
+                    tvBabyName.setText(mainInfo.getDatum().getNickname());
+                    String sex = "";
+                    if ("1".equals(mainInfo.getDatum().getSex())) {
+                        sex = "男宝宝";
+                        imgSex.setImageResource(R.mipmap.nan);
+                    } else if ("2".equals(mainInfo.getDatum().getSex())) {
+                        sex = "女宝宝";
+                        imgSex.setImageResource(R.mipmap.nv);
+                    } else {
+                        sex = mainInfo.getDatum().getSex();
+                    }
+                    tvBabySex.setText(sex);
+                    tvBabyBirth.setText(mainInfo.getDatum().getBirthday());
 
-				tvVideoNum.setText(mainInfo.getDatum().getVideoNum());
-				tvPicNum.setText(mainInfo.getDatum().getPicNum());
+                    tvVideoNum.setText(mainInfo.getDatum().getVideoNum());
+                    tvPicNum.setText(mainInfo.getDatum().getPicNum());
+                }
 			}else if (mainInfo.getCode() == 422){
-
+				Log.i("Tag", "-----code"+422);
+				appManager.exitLogin(MainActivity.this);
 			}
-		}
 	}
 
 	@Override
 	public void onError(Throwable e) {
 	}
+
+
 }
 

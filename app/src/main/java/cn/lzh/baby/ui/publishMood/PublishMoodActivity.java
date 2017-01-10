@@ -1,5 +1,6 @@
 package cn.lzh.baby.ui.publishMood;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import butterknife.OnClick;
 import cn.lzh.baby.R;
 import cn.lzh.baby.adapter.SelectedAdapter;
 import cn.lzh.baby.base.BaseActivity;
+import cn.lzh.baby.ui.location.MapActivity;
 import cn.lzh.baby.utils.view.LoadingDialog;
 
 public class PublishMoodActivity extends BaseActivity implements PublishView {
@@ -101,6 +103,7 @@ public class PublishMoodActivity extends BaseActivity implements PublishView {
 				presenter.uploadImage();
 				break;
 			case R.id.rl_weizhi:
+				startActivity(new Intent(PublishMoodActivity.this, MapActivity.class));
 				break;
 		}
 	}

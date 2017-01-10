@@ -34,11 +34,13 @@ public class AttentionPresenter implements HttpOnNextListener{
     @Override
     public void onNext(String result, String mothead) {
         UserBabyList userBabyList = (UserBabyList) GsonKit.jsonToBean(result, UserBabyList.class);
-        if (userBabyList.getCode() == 1) {
-            attentionView.refresh(userBabyList);
-            attentionView.loadingSuccese("");
-        }else{
-            Toast.makeText(attentionView.getContext(), userBabyList.getMessage(), Toast.LENGTH_SHORT).show();
+        if (null != userBabyList) {
+            if (userBabyList.getCode() == 1) {
+                attentionView.refresh(userBabyList);
+                attentionView.loadingSuccese("");
+            } else {
+                Toast.makeText(attentionView.getContext(), userBabyList.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

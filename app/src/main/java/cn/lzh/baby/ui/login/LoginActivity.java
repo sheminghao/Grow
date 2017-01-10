@@ -56,7 +56,6 @@ public class LoginActivity extends BaseActivity implements LoginView {
 			@Override
 			public void call(Void aVoid) {
 				presenter.Login();
-//				goMain();
 			}
 		});
 		RxView.clicks(btnRegister).throttleFirst(2, TimeUnit.SECONDS).subscribe(new Action1<Void>() {

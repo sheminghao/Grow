@@ -40,6 +40,10 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 	 * 上传多张图片
 	 */
 	public void uploadImage(){
+		if (EmptyUtils.isEmpty(view.getContent())){
+			T.show(view.getContext(),"说点什么吧！",0);
+			return ;
+		}
 		if (view.getUploadImage().size() == 0){
 			T.show(view.getContext(),"请选择图片！",0);
 			return;
@@ -83,10 +87,6 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 			public AddDynamic call(AddDynamic addDynamic) {
 				if (EmptyUtils.isEmpty(addDynamic.getContent())){
 					T.show(view.getContext(),"内容不能为空！",0);
-					return null;
-				}
-				if (EmptyUtils.isEmpty(addDynamic.getUrl())){
-					T.show(view.getContext(),"消费金额不能为空！",0);
 					return null;
 				}
 				return addDynamic;
@@ -162,6 +162,7 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 			}else{
 				if (baseInfo.getCode() == 1) {
 					Toast.makeText(view.getContext(), "发布成功", Toast.LENGTH_SHORT).show();
+					view.getContext().finish();
 				}else{
 					Toast.makeText(view.getContext(), "发布失败", Toast.LENGTH_SHORT).show();
 				}

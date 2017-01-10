@@ -5,10 +5,10 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
-    android:background="@color/whitesmoke"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="cn.lzh.baby.ui.attention.AttentionActivity"
-    tools:showIn="@layout/activity_attention">
+              android:background="@color/whitesmoke"
+              app:layout_behavior="@string/appbar_scrolling_view_behavior"
+              tools:context="cn.lzh.baby.ui.attention.AttentionActivity"
+              tools:showIn="@layout/activity_attention">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,18 +16,20 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btn_add_baby"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="5dp"
+            android:layout_margin="5dp"
             android:text="添加宝宝"
             android:background="@color/themdColor"/>
 
         <Button
+            android:id="@+id/btn_attention_baby"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="5dp"
+            android:layout_margin="5dp"
             android:text="关注宝宝"
             android:background="@color/themdColor"/>
 

@@ -58,10 +58,11 @@ public class UserUitls {
 		return null;
 	}
 
-	public static void saveLoginInfo(LoginInfo loginInfo){
+	public static boolean saveLoginInfo(LoginInfo loginInfo){
 		if (null != loginInfo) {
-			SPUtils.put(APP.app, "loginInfo", GsonKit.objectToJson(loginInfo));
+			return SPUtils.put(APP.app, "loginInfo", GsonKit.objectToJson(loginInfo));
 		}
+		return false;
 	}
 
 	public static void clearLoginInfo(){

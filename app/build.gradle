@@ -108,4 +108,6 @@ dependencies {
     compile 'com.google.zxing:core:3.3.0'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile files('libs/AMap_Search_V3.6.1_20161122.jar')
+    compile project(':recycler')
 }

@@ -1,6 +1,8 @@
 package cn.lzh.baby.ui.location;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,14 +17,25 @@ import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.MapsInitializer;
 import com.amap.api.maps.UiSettings;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
+import com.cundong.recyclerview.EndlessRecyclerOnScrollListener;
+import com.cundong.recyclerview.HeaderAndFooterRecyclerViewAdapter;
+import com.github.jdsjlzx.view.LoadingFooter;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.lzh.baby.R;
+import cn.lzh.baby.adapter.NearbyAdapter;
 import cn.lzh.baby.base.BaseActivity;
+import cn.lzh.baby.utils.view.RecyclerViewStateUtils;
 
-public class MapActivity extends BaseActivity implements LocationSource, AMapLocationListener {
+public class MapActivity extends BaseActivity implements LocationSource, AMapLocationListener, PoiSearch.OnPoiSearchListener {
 
     @BindView(R.id.iv_return)
     ImageView ivReturn;
@@ -30,10 +43,19 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
     TextView tvTitle;
     @BindView(R.id.tv_right)
     TextView tvRight;
+    @BindView(R.id.loc_recyclerview)
+    RecyclerView recyclerView;
     MapView mapView;
+
+    private HeaderAndFooterRecyclerViewAdapter mHeaderAndFooterRecyclerViewAdapter;
+    private NearbyAdapter nearbyAdapter;
 
     AMap aMap;
     UiSettings uiSettings;
+    PoiSearch.Query query;
+
+    //是否是第一次定位
+    private boolean firstLoc = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +84,12 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
     //声明AMapLocationClient类对象
     public AMapLocationClient mLocationClient = null;
     public void initMap() {
+        nearbyAdapter = new NearbyAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(nearbyAdapter);
+        recyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
+        recyclerView.addOnScrollListener(mOnScrollListener);
+
         aMap = mapView.getMap();
         uiSettings = aMap.getUiSettings();
         uiSettings.setScaleControlsEnabled(true); //比例尺是否可用
@@ -89,10 +117,34 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
         };
     }
 
+    private int start = 0;
+    private int limit = 20;
+    private void initPoi(AMapLocation aMapLocation){
+        String ctgr = "汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|" +
+                "住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施";
+        query = new PoiSearch.Query("", ctgr);
+        //keyWord表示搜索字符串，
+        //第二个参数表示POI搜索类型，二者选填其一，
+        //POI搜索类型共分为以下20种：汽车服务|汽车销售|
+        //汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|
+        //住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|
+        //金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施
+        //cityCode表示POI搜索区域，可以是城市编码也可以是城市名称，也可以传空字符串，空字符串代表全国在全国范围内进行搜索
+        query.setPageSize(limit);// 设置每页最多返回多少条poiitem
+        query.setPageNum(start);//设置查询页码
+        poiSearch = new PoiSearch(this, query);
+        poiSearch.setOnPoiSearchListener(this);
+        poiSearch.setBound(new PoiSearch.SearchBound(new LatLonPoint(aMapLocation.getLatitude(),
+                aMapLocation.getLongitude()), 500, true));//设置周边搜索的中心点以及半径
+        poiSearch.searchPOIAsyn();
+
+    }
+
     private AMapLocation myLocation;
     private OnLocationChangedListener mListener;
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
+    private PoiSearch poiSearch;
     /**
      * 定位成功后回调函数
      */
@@ -103,6 +155,10 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
                     && aMapLocation.getErrorCode() == 0) {
                 myLocation = aMapLocation;
                 mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
+                if (firstLoc) {
+                    initPoi(aMapLocation);
+                    firstLoc = false;
+                }
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode()+ ": " + aMapLocation.getErrorInfo();
                 Log.e("AmapErr",errText);
@@ -144,4 +200,69 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
         }
         mlocationClient = null;
     }
+
+    @Override
+    public void onPoiSearched(PoiResult poiResult, int rCode) {
+        Log.i("TAG", "=====poiCode"+rCode);
+        Log.i("TAG", "=====start"+start);
+        if (rCode == 1000) {
+            RecyclerViewStateUtils.setFooterViewState(recyclerView, LoadingFooter.State.TheEnd);
+            ArrayList<PoiItem> pois = poiResult.getPois();
+            if(pois.size() < limit){
+                isCanLoad = false;
+            }
+            nearbyAdapter.addData(pois);
+            Log.i("TAG", "=====pois" + pois.size());
+            for (int j = 0; j < pois.size(); j++) {
+                PoiItem poi = pois.get(j);
+                Log.i("TAG", "=====poi" + poi.getProvinceName() + poi.getCityName() + poi.getAdName() + poi.getSnippet()
+                        + "=" + poi.getTitle());
+            }
+        }else{
+            RecyclerViewStateUtils.setFooterViewState(MapActivity.this, recyclerView, limit, LoadingFooter.State.NetWorkError, mFooterClick);
+        }
+    }
+
+    @Override
+    public void onPoiItemSearched(PoiItem poiItem, int i) {
+
+    }
+
+    private boolean isCanLoad=true;
+    /**
+     * 自动加载
+     */
+    private EndlessRecyclerOnScrollListener mOnScrollListener = new EndlessRecyclerOnScrollListener() {
+
+
+        @Override
+        public void onLoadNextPage(View view) {
+            super.onLoadNextPage(view);
+            LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(recyclerView);
+            if(state == LoadingFooter.State.Loading) {
+                return;
+            }
+            if (isCanLoad) {
+                RecyclerViewStateUtils.setFooterViewState(MapActivity.this, recyclerView, limit, LoadingFooter.State.Loading, null);
+                if (null != myLocation) {
+                    start++;
+                    initPoi(myLocation);
+                }
+            } else {
+                //the end
+                RecyclerViewStateUtils.setFooterViewState(MapActivity.this, recyclerView, limit, LoadingFooter.State.TheEnd, null);
+            }
+        }
+    };
+
+    /**
+     * 加载失败后的点击事件
+     */
+    private View.OnClickListener mFooterClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RecyclerViewStateUtils.setFooterViewState(MapActivity.this, recyclerView, limit, LoadingFooter.State.Loading, null);
+            initPoi(myLocation);
+        }
+    };
 }

@@ -28,6 +28,7 @@ import com.jakewharton.rxbinding.view.RxView;
 import org.xutils.common.util.DensityUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -125,6 +126,10 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 		});
 	}
 
+	/**
+	 * 二维码
+	 * @param bitmap
+     */
 	private void showQRDialog(Bitmap bitmap){
 		Dialog alterDialog = new Dialog(this);
 		alterDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -137,8 +142,10 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 		Window dialogWindow = alterDialog.getWindow();
 		dialogWindow.getDecorView().setPadding(0,0,0,0);
 		WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-		lp.width = 320;
-		lp.height = 320;
+		WindowManager wm = this.getWindowManager();
+		int width = wm.getDefaultDisplay().getWidth();
+		lp.width = width/2;
+		lp.height = width/2;
 		lp.gravity = Gravity.CENTER;
 		dialogWindow.setAttributes(lp);
 
@@ -194,18 +201,8 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 
 		final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources()
 						.getDisplayMetrics());
-		fragmentList.add(DiaryFragment.newInstance("1月"));
-		fragmentList.add(DiaryFragment.newInstance("2月"));
-		fragmentList.add(DiaryFragment.newInstance("3月"));
-		fragmentList.add(DiaryFragment.newInstance("4月"));
-		fragmentList.add(DiaryFragment.newInstance("5月"));
-		fragmentList.add(DiaryFragment.newInstance("6月"));
-		fragmentList.add(DiaryFragment.newInstance("7月"));
-		fragmentList.add(DiaryFragment.newInstance("8月"));
-		fragmentList.add(DiaryFragment.newInstance("9月"));
-		fragmentList.add(DiaryFragment.newInstance("10月"));
-		fragmentList.add(DiaryFragment.newInstance("11月"));
-		fragmentList.add(DiaryFragment.newInstance("12月"));
+//		fragmentList.add(DiaryFragment.newInstance("1月"));
+//		fragmentList.add(DiaryFragment.newInstance("2月"));
 		pageAdapter = new PageAdapter(getSupportFragmentManager(), fragmentList);
 		mViewPager.setAdapter(pageAdapter);
 		mViewPager.setPageMargin(pageMargin);
@@ -265,6 +262,21 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 
                     tvVideoNum.setText(mainInfo.getDatum().getVideoNum());
                     tvPicNum.setText(mainInfo.getDatum().getPicNum());
+
+					String[] titles = {};
+					for (int i = 0; i < mainInfo.getDatum().getTimeAxis().size(); i++) {
+						List<String> timeAxis = mainInfo.getDatum().getTimeAxis();
+						titles = new String[timeAxis.size()];
+						String mouth = timeAxis.get(i).split("-")[1];
+						if ("0".equals(mouth.substring(0,1))){
+							mouth = mouth.substring(1,2);
+						}
+						titles[i] = mouth+"月";
+						fragmentList.add(DiaryFragment.newInstance(mouth+"月"));
+					}
+					pageAdapter.setTitles(titles);
+					pageAdapter.notifyDataSetChanged();
+					tabs.notifyDataSetChanged();
                 }
 			}else if (mainInfo.getCode() == 422){
 				Log.i("Tag", "-----code"+422);

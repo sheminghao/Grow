@@ -1,5 +1,7 @@
 package cn.lzh.baby.modle;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -11,7 +13,7 @@ public class MainInfo extends BaseInfo{
 
     /**
      * message : null
-     * datum : {"dynamic":[{"babyNickname":"3","location":null,"type":"1","url":null,"give_flag":"0","id":5,"content":"5庆祝","baby_id":3,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":2,"appellation":null,"give_num":0},{"babyNickname":"玉宇","location":null,"type":"1","url":null,"give_flag":"0","id":4,"content":"4庆祝","baby_id":2,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":3,"appellation":null,"give_num":0}],"timeAxis":["2016-12"],"birthday":"2016-12-28","sex":"女宝宝","videoNum":"0","nickname":"果果","babyId":"0","picNum":"0","portrait":""}
+     * datum : {"dynamic":[{"babyNickname":"果果","location":"深圳南山","type":"1","url":"","give_flag":"0","id":6,"content":"123","baby_id":1,"userPortrait":null,"create_date":"2017-01-09 20:40:35","user_id":1,"appellation":null,"give_num":666},{"babyNickname":"3","location":null,"type":"1","url":null,"give_flag":"0","id":5,"content":"5庆祝","baby_id":3,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":2,"appellation":null,"give_num":0},{"babyNickname":"玉宇","location":null,"type":"1","url":null,"give_flag":"0","id":4,"content":"4庆祝","baby_id":2,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":3,"appellation":null,"give_num":0}],"timeAxis":["2016-12","2017-01"],"birthday":"2016-12-03","sex":"2","videoNum":"0","nickname":"果果","babyId":"12","picNum":"0","portrait":"http://120.76.234.53:8080/grow/upload/images/1.jpg"}
      */
 
     private DatumBean datum;
@@ -26,15 +28,15 @@ public class MainInfo extends BaseInfo{
 
     public static class DatumBean {
         /**
-         * dynamic : [{"babyNickname":"3","location":null,"type":"1","url":null,"give_flag":"0","id":5,"content":"5庆祝","baby_id":3,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":2,"appellation":null,"give_num":0},{"babyNickname":"玉宇","location":null,"type":"1","url":null,"give_flag":"0","id":4,"content":"4庆祝","baby_id":2,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":3,"appellation":null,"give_num":0}]
-         * timeAxis : ["2016-12"]
-         * birthday : 2016-12-28
-         * sex : 女宝宝
+         * dynamic : [{"babyNickname":"果果","location":"深圳南山","type":"1","url":"","give_flag":"0","id":6,"content":"123","baby_id":1,"userPortrait":null,"create_date":"2017-01-09 20:40:35","user_id":1,"appellation":null,"give_num":666},{"babyNickname":"3","location":null,"type":"1","url":null,"give_flag":"0","id":5,"content":"5庆祝","baby_id":3,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":2,"appellation":null,"give_num":0},{"babyNickname":"玉宇","location":null,"type":"1","url":null,"give_flag":"0","id":4,"content":"4庆祝","baby_id":2,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":3,"appellation":null,"give_num":0}]
+         * timeAxis : ["2016-12","2017-01"]
+         * birthday : 2016-12-03
+         * sex : 2
          * videoNum : 0
          * nickname : 果果
-         * babyId : 0
+         * babyId : 12
          * picNum : 0
-         * portrait :
+         * portrait : http://120.76.234.53:8080/grow/upload/images/1.jpg
          */
 
         private String birthday;
@@ -121,19 +123,19 @@ public class MainInfo extends BaseInfo{
 
         public static class DynamicBean {
             /**
-             * babyNickname : 3
-             * location : null
+             * babyNickname : 果果
+             * location : 深圳南山
              * type : 1
-             * url : null
+             * url :
              * give_flag : 0
-             * id : 5
-             * content : 5庆祝
-             * baby_id : 3
+             * id : 6
+             * content : 123
+             * baby_id : 1
              * userPortrait : null
-             * create_date : 2016-12-03 18:02:08
-             * user_id : 2
+             * create_date : 2017-01-09 20:40:35
+             * user_id : 1
              * appellation : null
-             * give_num : 0
+             * give_num : 666
              */
 
             private String babyNickname;
@@ -144,10 +146,10 @@ public class MainInfo extends BaseInfo{
             private int id;
             private String content;
             private int baby_id;
-            private String userPortrait;
+            private Object userPortrait;
             private String create_date;
             private int user_id;
-            private String appellation;
+            private Object appellation;
             private int give_num;
 
             public String getBabyNickname() {
@@ -214,11 +216,11 @@ public class MainInfo extends BaseInfo{
                 this.baby_id = baby_id;
             }
 
-            public String getUserPortrait() {
+            public Object getUserPortrait() {
                 return userPortrait;
             }
 
-            public void setUserPortrait(String userPortrait) {
+            public void setUserPortrait(Object userPortrait) {
                 this.userPortrait = userPortrait;
             }
 
@@ -238,11 +240,11 @@ public class MainInfo extends BaseInfo{
                 this.user_id = user_id;
             }
 
-            public String getAppellation() {
+            public Object getAppellation() {
                 return appellation;
             }
 
-            public void setAppellation(String appellation) {
+            public void setAppellation(Object appellation) {
                 this.appellation = appellation;
             }
 

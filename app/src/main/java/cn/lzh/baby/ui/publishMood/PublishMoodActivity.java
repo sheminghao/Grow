@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -103,7 +104,8 @@ public class PublishMoodActivity extends BaseActivity implements PublishView {
 				presenter.uploadImage();
 				break;
 			case R.id.rl_weizhi:
-				startActivity(new Intent(PublishMoodActivity.this, MapActivity.class));
+				Intent intent = new Intent(PublishMoodActivity.this, MapActivity.class);
+				startActivityForResult(intent, 100);
 				break;
 		}
 	}
@@ -146,5 +148,14 @@ public class PublishMoodActivity extends BaseActivity implements PublishView {
 	@Override
 	public RxAppCompatActivity getContext() {
 		return this;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 100 && resultCode == RESULT_OK){
+			String title = data.getStringExtra("title");
+			tvWeizhi.setText(title);
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package cn.lzh.baby.ui.location;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,6 +90,15 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
         mHeaderAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter(nearbyAdapter);
         recyclerView.setAdapter(mHeaderAndFooterRecyclerViewAdapter);
         recyclerView.addOnScrollListener(mOnScrollListener);
+        nearbyAdapter.setOnItemClickListener(new NearbyAdapter.OnItemClickListener() {
+            @Override
+            public void itemClick(int position, String title) {
+                Intent intent = new Intent();
+                intent.putExtra("title", title);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
 
         aMap = mapView.getMap();
         uiSettings = aMap.getUiSettings();
@@ -115,6 +125,7 @@ public class MapActivity extends BaseActivity implements LocationSource, AMapLoc
                 }
             }
         };
+
     }
 
     private int start = 0;

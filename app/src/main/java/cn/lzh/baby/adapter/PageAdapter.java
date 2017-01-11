@@ -15,8 +15,7 @@ public class PageAdapter extends FragmentPagerAdapter
 //				implements PagerSlidingTabStrip.IconTabProvider
 {
 	private ArrayList<Fragment> list;
-	private final String[] TITLES = { "1月", "2月", "3月", "4月", "5月", "6月",
-					"7月", "8月", "9月", "10月", "11月", "12月"};
+	private String[] titles = {"1月"};
 //	private final int[] ICONS = { R.drawable.ic_launcher, R.drawable.ic_launcher,
 //					R.drawable.ic_launcher, R.drawable.ic_launcher ,R.drawable.ic_launcher, R.drawable.ic_launcher ,R.drawable.ic_launcher, R.drawable.ic_launcher };
 	public PageAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList) {
@@ -24,11 +23,13 @@ public class PageAdapter extends FragmentPagerAdapter
 		this.list=fragmentList;
 	}
 
-
+	public void setTitles(String[] titles){
+		this.titles = titles;
+	}
 
 	@Override
 	public CharSequence getPageTitle(int position) {
-		SpannableStringBuilder ssb = new SpannableStringBuilder(TITLES[position]); // space added before text for
+		SpannableStringBuilder ssb = new SpannableStringBuilder(titles[position]); // space added before text for
 		ForegroundColorSpan fcs = new ForegroundColorSpan(Color.BLUE);//字体颜色设置为绿色
 		ssb.setSpan(fcs, 1, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);//设置字体颜色
 		ssb.setSpan(new RelativeSizeSpan(1.2f), 1, ssb.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

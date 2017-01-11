@@ -46,6 +46,7 @@ public class AttentionActivity extends BaseActivity implements AttentionView{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBarState(R.color.themdColor);
         setContentView(R.layout.activity_attention);
         ButterKnife.bind(this);
         tvTitle.setText("关注宝宝");

@@ -3,10 +3,12 @@ package cn.lzh.baby.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.lzh.baby.R;
+import cn.lzh.baby.modle.MainInfo;
 import cn.lzh.baby.ui.play.PlayActivity;
 import cn.lzh.baby.utils.tools.GlideImageLoader;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -26,8 +29,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.MyViewHolder> {
 
 	private Activity activity;
+	private List<MainInfo.DatumBean.DynamicBean> list = new ArrayList();
 	public DiaryAdapter(Activity activity) {
 		this.activity=activity;
+	}
+
+	public void setData(List<MainInfo.DatumBean.DynamicBean> list){
+		this.list = list;
+		notifyDataSetChanged();
 	}
 
 	/**
@@ -39,15 +48,15 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.MyViewHolder
 		switch (viewType) {
 			case 0:
 				holder = new MyViewHolder(LayoutInflater.from(parent.getContext()).
-								inflate(R.layout.itme_diary_shipin, parent, false));
+								inflate(R.layout.itme_diary_shipin, parent, false), viewType);
 				break;
 			case 1:
 				holder = new MyViewHolder(LayoutInflater.from(parent.getContext()).
-								inflate(R.layout.itme_diary_tuwen, parent, false));
+								inflate(R.layout.itme_diary_tuwen, parent, false), viewType);
 				break;
 			case 2:
 				holder = new MyViewHolder(LayoutInflater.from(parent.getContext()).
-								inflate(R.layout.itme_diary_diray, parent, false));
+								inflate(R.layout.itme_diary_diray, parent, false), viewType);
 				break;
 		}
 		return holder;
@@ -57,13 +66,13 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.MyViewHolder
 	public void onBindViewHolder(final MyViewHolder holder, int position) {
 		switch (holder.getItemViewType()) {
 			case 0:
-				showShiPin(holder);
+				showShiPin(holder, position);
 				break;
 			case 1:
-				showTuWen(holder);
+				showTuWen(holder, position);
 				break;
 			case 2:
-				showYinsi(holder);
+				showYinsi(holder, position);
 				break;
 		}
 	}
@@ -72,8 +81,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.MyViewHolder
 	 * 展示隐私类信息
 	 * @param holder
 	 */
-	private void showYinsi(MyViewHolder holder) {
-
+	private void showYinsi(MyViewHolder holder, int position) {
 
 	}
 
@@ -81,7 +89,14 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.MyViewHolder
 	 * 展示图文信息
 	 * @param holder
 	 */
-	private void showTuWen(MyViewHolder holder) {
+	private void showTuWen(MyViewHolder holder, int position) {
+        if (null != list.get(position)) {
+			holder.tvName.setText(list.get(position).getBabyNickname() + "");
+			holder.tvCreateTime.setText(list.get(position).getCreate_date() + "");
+			holder.tvLoc.setText(list.get(position).getLocation() + "");
+			holder.tvContent.setText(list.get(position).getContent() + "");
+        }
+
 		//设置图片集合
 		List<Integer> images=new ArrayList<>();
 		images.add(R.mipmap.ziliaotouxiang);
@@ -102,7 +117,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.MyViewHolder
 	 * 展示视频类的信息
 	 * @param holder
 	 */
-	private void showShiPin(MyViewHolder holder) {
+	private void showShiPin(MyViewHolder holder, int position) {
 		RelativeLayout rl_play= (RelativeLayout) holder.itemView.findViewById(R.id.rl_play);
 		rl_play.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -114,28 +129,39 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.MyViewHolder
 
 	@Override
 	public int getItemViewType(int position) {
-		return position % 3;
+		int type = Integer.parseInt(list.get(position).getType());
+		return type;
 	}
 
 	@Override
 	public int getItemCount() {
-		return 5;
+        return list.size();
 	}
 
 	class MyViewHolder extends RecyclerView.ViewHolder {
 
 		CircleImageView ivUser;
+		TextView tvName;
+		TextView tvCreateTime;
+		TextView tvLoc;
+		TextView tvContent;
 
-		public MyViewHolder(View itemView) {
+		public MyViewHolder(View itemView, int viewType) {
 			super(itemView);
-			switch (getItemViewType()){
-				case 0:
+			switch (viewType){
+				case 0://视频
 					break;
-				case 1:
+				case 1://图文
+					ivUser = (CircleImageView) itemView.findViewById(R.id.iv_user);
+					tvName = (TextView) itemView.findViewById(R.id.tv_name);
+					tvCreateTime = (TextView) itemView.findViewById(R.id.tv_create_time);
+					tvLoc = (TextView) itemView.findViewById(R.id.tv_loc);
+					tvContent = (TextView) itemView.findViewById(R.id.tv_content);
 					break;
-				case 2:
+				case 2://私密
 					break;
 			}
 		}
 	}
+
 }

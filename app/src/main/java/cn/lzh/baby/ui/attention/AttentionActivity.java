@@ -21,6 +21,7 @@ import cn.lzh.baby.R;
 import cn.lzh.baby.adapter.AttentionAdapter;
 import cn.lzh.baby.base.BaseActivity;
 import cn.lzh.baby.modle.UserBabyList;
+import cn.lzh.baby.ui.InvitationCode.InvitationCodeActivity;
 import cn.lzh.baby.ui.addBaby.AddBabyActivity;
 import cn.lzh.baby.utils.view.LoadingDialog;
 
@@ -56,18 +57,10 @@ public class AttentionActivity extends BaseActivity implements AttentionView{
     }
 
     private void init(){
-        adapter = new AttentionAdapter(this);
+        adapter = new AttentionAdapter(this, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         loadData();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if ("add".equals(getIntent().getStringExtra("flag"))) {
-            loadData();
-        }
     }
 
     @OnClick({R.id.iv_return,R.id.btn_add_baby,R.id.btn_attention_baby})
@@ -77,9 +70,11 @@ public class AttentionActivity extends BaseActivity implements AttentionView{
                 finish();
                 break;
             case R.id.btn_add_baby://添加宝宝
-                startActivity(new Intent(this, AddBabyActivity.class));
+                Intent intent = new Intent(this, AddBabyActivity.class);
+                startActivityForResult(intent, 1001);
                 break;
             case R.id.btn_attention_baby://关注宝宝
+                startActivity(new Intent(this, InvitationCodeActivity.class));
                 break;
         }
     }
@@ -116,5 +111,13 @@ public class AttentionActivity extends BaseActivity implements AttentionView{
     @Override
     public RxAppCompatActivity getContext() {
         return this;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1001 && resultCode == RESULT_OK){
+            loadData();
+        }
     }
 }

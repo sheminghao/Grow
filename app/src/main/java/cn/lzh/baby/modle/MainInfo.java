@@ -2,13 +2,14 @@ package cn.lzh.baby.modle;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/1/8.
  */
 
-public class MainInfo extends BaseInfo{
+public class MainInfo extends BaseInfo implements Serializable{
 
 
     /**
@@ -26,7 +27,7 @@ public class MainInfo extends BaseInfo{
         this.datum = datum;
     }
 
-    public static class DatumBean {
+    public static class DatumBean implements Serializable{
         /**
          * dynamic : [{"babyNickname":"果果","location":"深圳南山","type":"1","url":"","give_flag":"0","id":6,"content":"123","baby_id":1,"userPortrait":null,"create_date":"2017-01-09 20:40:35","user_id":1,"appellation":null,"give_num":666},{"babyNickname":"3","location":null,"type":"1","url":null,"give_flag":"0","id":5,"content":"5庆祝","baby_id":3,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":2,"appellation":null,"give_num":0},{"babyNickname":"玉宇","location":null,"type":"1","url":null,"give_flag":"0","id":4,"content":"4庆祝","baby_id":2,"userPortrait":null,"create_date":"2016-12-03 18:02:08","user_id":3,"appellation":null,"give_num":0}]
          * timeAxis : ["2016-12","2017-01"]
@@ -121,7 +122,7 @@ public class MainInfo extends BaseInfo{
             this.timeAxis = timeAxis;
         }
 
-        public static class DynamicBean {
+        public static class DynamicBean implements Serializable{
             /**
              * babyNickname : 果果
              * location : 深圳南山

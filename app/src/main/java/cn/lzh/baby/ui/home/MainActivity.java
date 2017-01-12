@@ -1,7 +1,6 @@
 package cn.lzh.baby.ui.home;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -9,7 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -62,6 +61,8 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	PagerSlidingTabStrip tabs;
 	@BindView(R.id.mViewPager)
 	MyViewPager mViewPager;
+	@BindView(R.id.swipeRefreshLayout)
+	SwipeRefreshLayout swipeRefreshLayout;
 	@BindView(R.id.fab)
 	FloatingActionButton fab;
 	@BindView(R.id.tv_baby_name)
@@ -78,6 +79,9 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	TextView tvPicNum;
 	@BindView(R.id.img_qr_code)
 	ImageView imgQRCode;
+	@BindView(R.id.app_bar)
+	AppBarLayout appBarLayout;
+
 	private ArrayList<Fragment> fragmentList;
 	private PageAdapter pageAdapter;
 	private MyPopupWindow pop;
@@ -123,6 +127,23 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 				}
 			}
 
+		});
+		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				initData();
+			}
+		});
+		appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+			@Override
+			public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+
+				if (verticalOffset >= 0) {
+					swipeRefreshLayout.setEnabled(true);
+				} else {
+					swipeRefreshLayout.setEnabled(false);
+				}
+			}
 		});
 	}
 
@@ -202,7 +223,6 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 		final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12, getResources()
 						.getDisplayMetrics());
 //		fragmentList.add(DiaryFragment.newInstance("1月"));
-//		fragmentList.add(DiaryFragment.newInstance("2月"));
 		pageAdapter = new PageAdapter(getSupportFragmentManager(), fragmentList);
 		mViewPager.setAdapter(pageAdapter);
 		mViewPager.setPageMargin(pageMargin);
@@ -213,7 +233,6 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 		tabs.setSelectedTextColor(Color.parseColor("#30B2FE"));
 		tabs.setTextSize(DensityUtils.dp2px(this,14));
 	}
-
 
 	private long exitTime = 0;
 
@@ -235,6 +254,7 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	@Override
 	public void onNext(String result, String mothead) {
 		Log.i("Tag", "-----main"+result);
+		swipeRefreshLayout.setRefreshing(false);
 		MainInfo mainInfo = (MainInfo) GsonKit.jsonToBean(result, MainInfo.class);
 			if (mainInfo.getCode() == 1) {
                 if (null != mainInfo.getDatum()) {
@@ -263,16 +283,20 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
                     tvVideoNum.setText(mainInfo.getDatum().getVideoNum());
                     tvPicNum.setText(mainInfo.getDatum().getPicNum());
 
-					String[] titles = {};
+					String[] titles = new String[mainInfo.getDatum().getTimeAxis().size()];
+					fragmentList.clear();
 					for (int i = 0; i < mainInfo.getDatum().getTimeAxis().size(); i++) {
 						List<String> timeAxis = mainInfo.getDatum().getTimeAxis();
-						titles = new String[timeAxis.size()];
-						String mouth = timeAxis.get(i).split("-")[1];
+						String[] timeAxiss = timeAxis.get(i).split("-");
+						String mouth = timeAxiss[1];
 						if ("0".equals(mouth.substring(0,1))){
 							mouth = mouth.substring(1,2);
 						}
 						titles[i] = mouth+"月";
-						fragmentList.add(DiaryFragment.newInstance(mouth+"月"));
+						Log.i("Tag", "-----title"+"-"+titles[i]);
+						DiaryFragment diaryFragment = DiaryFragment.newInstance(mouth+"月");
+						diaryFragment.setData(mainInfo.getDatum().getDynamic());
+						fragmentList.add(diaryFragment);
 					}
 					pageAdapter.setTitles(titles);
 					pageAdapter.notifyDataSetChanged();
@@ -281,11 +305,13 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 			}else if (mainInfo.getCode() == 422){
 				Log.i("Tag", "-----code"+422);
 				appManager.exitLogin(MainActivity.this);
+				T.showShort(MainActivity.this, "登录失效，请重新登陆");
 			}
 	}
 
 	@Override
 	public void onError(Throwable e) {
+		swipeRefreshLayout.setRefreshing(false);
 	}
 
 

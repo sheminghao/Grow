@@ -118,9 +118,15 @@ public interface HttpService {
 
 	/**
 	 * 获取首页动态的接口
-   */
+     */
     @POST("dynamic/list")
     Observable<String> dynamic(@Query("pageNum") String pageNum);
+
+    /**
+     * 设为主宝宝
+     */
+    @POST("baby/setMainBaby")
+    Observable<String> setMainBaby(@Query("babyId") String babyId, @Query("token") String token);
 
 	/**
 	 * 添加动态接口

@@ -4,6 +4,7 @@ package cn.lzh.baby.ui.home;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,15 @@ import android.view.ViewGroup;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.lzh.baby.R;
 import cn.lzh.baby.adapter.DiaryAdapter;
 import cn.lzh.baby.base.BaseFragment;
+import cn.lzh.baby.modle.MainInfo;
 import cn.lzh.baby.utils.tools.L;
 
 /**
@@ -29,6 +34,8 @@ public class DiaryFragment extends BaseFragment {
 	private DiaryAdapter diaryAdapter;
 	private LRecyclerViewAdapter mLRecyclerViewAdapter;
 	private LinearLayoutManager mLinearLayoutManager;
+
+	private List<MainInfo.DatumBean.DynamicBean> list = new ArrayList();
 
 	public static DiaryFragment newInstance(String time) {
 		DiaryFragment fragment = new DiaryFragment();
@@ -55,6 +62,13 @@ public class DiaryFragment extends BaseFragment {
 		setInfo();
 	}
 
+	public void setData(List<MainInfo.DatumBean.DynamicBean> list) {
+		this.list = list;
+		if (null != diaryAdapter){
+			diaryAdapter.setData(list);
+		}
+	}
+
 	private void setInfo() {
 		if (getArguments() != null) {
 			L.i(getArguments().getString("time"));
@@ -69,6 +83,7 @@ public class DiaryFragment extends BaseFragment {
 		diaryAdapter = new DiaryAdapter(getActivity());
 		mLRecyclerViewAdapter = new LRecyclerViewAdapter(diaryAdapter);
 		iRecyclerView.setAdapter(mLRecyclerViewAdapter);
+		diaryAdapter.setData(list);
 	}
 
 	@Override

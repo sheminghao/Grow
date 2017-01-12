@@ -1,14 +1,16 @@
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whitesmoke"
     android:orientation="vertical"
-    tools:context="com.example.shetj.babydiary.ui.home.DiaryFragment">
+    tools:context="cn.lzh.baby.ui.home.DiaryFragment">
         <com.github.jdsjlzx.recyclerview.LRecyclerView
             android:id="@+id/iRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
         </com.github.jdsjlzx.recyclerview.LRecyclerView>
 </android.support.v4.widget.NestedScrollView>

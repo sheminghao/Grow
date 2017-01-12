@@ -15,7 +15,7 @@ public class PageAdapter extends FragmentPagerAdapter
 //				implements PagerSlidingTabStrip.IconTabProvider
 {
 	private ArrayList<Fragment> list;
-	private String[] titles = {"1月"};
+	private String[] titles = {};
 //	private final int[] ICONS = { R.drawable.ic_launcher, R.drawable.ic_launcher,
 //					R.drawable.ic_launcher, R.drawable.ic_launcher ,R.drawable.ic_launcher, R.drawable.ic_launcher ,R.drawable.ic_launcher, R.drawable.ic_launcher };
 	public PageAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList) {

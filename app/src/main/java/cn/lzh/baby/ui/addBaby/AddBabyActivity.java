@@ -233,9 +233,8 @@ public class AddBabyActivity extends BaseActivity implements AddBabyView {
 	@Override
 	public void loadingSuccese(String msg) {
 		LoadingDialog.disDialog();
-		Intent intent = new Intent(this, AttentionActivity.class);
-		intent.putExtra("flag", "add");
-		startActivity(intent);
+		Intent intent = new Intent();
+		setResult(RESULT_OK, intent);
 		finish();
 	}
 

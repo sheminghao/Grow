@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.lzh.baby.R;
 import cn.lzh.baby.base.BaseActivity;
@@ -29,6 +30,7 @@ public class InvitationCodeActivity extends BaseActivity implements InvitationCo
         super.onCreate(savedInstanceState);
         setStatusBarState(R.color.themdColor);
         setContentView(R.layout.activity_invitation_code);
+        ButterKnife.bind(this);
         tvTitle.setText("添加关注宝宝");
         tvRight.setVisibility(View.GONE);
     }

@@ -1,6 +1,8 @@
 package cn.lzh.baby.utils.app;
 
 
+import android.text.TextUtils;
+
 import cn.lzh.baby.APP;
 import cn.lzh.baby.modle.Baby;
 import cn.lzh.baby.modle.LoginInfo;
@@ -58,15 +60,25 @@ public class UserUitls {
 		return null;
 	}
 
-	public static boolean saveLoginInfo(LoginInfo loginInfo){
+	public static void saveLoginInfo(LoginInfo loginInfo){
 		if (null != loginInfo) {
-			return SPUtils.put(APP.app, "loginInfo", GsonKit.objectToJson(loginInfo));
+			SPUtils.put(APP.app, "loginInfo", GsonKit.objectToJson(loginInfo));
 		}
-		return false;
 	}
 
 	public static void clearLoginInfo(){
 		SPUtils.remove(APP.app, "loginInfo");
+	}
+
+	public static String getToken(){
+		String token=(String) SPUtils.get(APP.app,"token","");
+		return token;
+	}
+
+	public static void saveLoginInfo(String token){
+		if (!TextUtils.isEmpty(token)) {
+			SPUtils.put(APP.app, "token", token);
+		}
 	}
 
 }

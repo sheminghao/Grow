@@ -9,4 +9,8 @@ import cn.lzh.baby.base.BaseView;
 
 public interface InvitationCodeView extends BaseView {
 
+    String getCode();
+    String getChenghu();
+    boolean isMainBaby();
+
 }

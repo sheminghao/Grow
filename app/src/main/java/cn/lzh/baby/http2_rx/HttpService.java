@@ -128,6 +128,13 @@ public interface HttpService {
     @POST("baby/setMainBaby")
     Observable<String> setMainBaby(@Query("babyId") String babyId, @Query("token") String token);
 
+    /**
+     * 添加关注宝宝
+     */
+    @POST("/baby/follow")
+    Observable<String> addAttention(@Query("code") String code, @Query("appellation") String appellation,
+                                    @Query("mainFlag") String mainFlag, @Query("token") String token);
+
 	/**
 	 * 添加动态接口
    参数	是否必填	说明	值

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import cn.lzh.baby.APP;
 import cn.lzh.baby.modle.Baby;
 import cn.lzh.baby.modle.LoginInfo;
+import cn.lzh.baby.modle.MainInfo;
 import cn.lzh.baby.modle.User;
 import cn.lzh.baby.utils.file.SPUtils;
 import cn.lzh.baby.utils.json.GsonKit;
@@ -75,9 +76,23 @@ public class UserUitls {
 		return token;
 	}
 
-	public static void saveLoginInfo(String token){
+	public static void saveToken(String token){
 		if (!TextUtils.isEmpty(token)) {
 			SPUtils.put(APP.app, "token", token);
+		}
+	}
+
+	public static MainInfo getMainInfo(){
+		String info=(String) SPUtils.get(APP.app,"mainInfo","");
+		if (!EmptyUtils.isEmpty(info)) {
+			return (MainInfo) GsonKit.jsonToBean(info, MainInfo.class);
+		}
+		return null;
+	}
+
+	public static void saveMainInfo(MainInfo mainInfo){
+		if (!EmptyUtils.isEmpty(mainInfo)) {
+			SPUtils.put(APP.app, "mainInfo", GsonKit.objectToJson(mainInfo));
 		}
 	}
 

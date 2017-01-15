@@ -11,9 +11,6 @@ import android.widget.TextView;
 
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

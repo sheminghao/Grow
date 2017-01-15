@@ -107,4 +107,16 @@
     <string name="title_activity_baby_info">BabyInfoActivity</string>
     <string name="title_activity_publish_mood">PublishMoodActivity</string>
     <string name="title_activity_publish_private">PublishPrivateActivity</string>
+    
+    <array name="appellation" >
+        <item>请选择称呼</item>
+        <item>太爷爷</item>
+        <item>太奶奶</item>
+        <item>爷爷</item>
+        <item>奶奶</item>
+        <item>爸爸</item>
+        <item>妈妈</item>
+        <item>叔叔</item>
+        <item>阿姨</item>
+    </array>
 </resources>

@@ -36,11 +36,10 @@ public class HttpManager {
 
     /**
      * 处理http请求
-     *
      * @param basePar 封装的请求数据
      */
     public void doHttpDeal(BaseApi basePar) {
-    //log拦截器
+        //log拦截器
         //手动创建一个OkHttpClient并设置超时时间缓存等设置
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(new CacheInterceptor());
@@ -48,6 +47,7 @@ public class HttpManager {
         builder.addNetworkInterceptor(new CacheInterceptor());
         /*缓存位置和大小*/
         builder.cache(new Cache(APP.app.getCacheDir(),10*1024*1024));
+
 
         /*创建retrofit对象*/
         Retrofit retrofit = new Retrofit.Builder()

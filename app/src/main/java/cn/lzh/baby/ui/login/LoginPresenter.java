@@ -65,8 +65,8 @@ public class LoginPresenter implements HttpOnNextListener{
 	public void onNext(String result, String mothead) {
 		LoginInfo loginInfo = (LoginInfo) GsonKit.jsonToBean(result, LoginInfo.class);
 		if (loginInfo.getCode() == 1) {
-			UserUitls.saveLoginInfo(loginInfo);
 			UserUitls.saveToken(loginInfo.getToken());
+			UserUitls.saveLoginInfo(loginInfo);
 			loginView.loginSuccese("登录成功！");
 		}else {
 			loginView.showMsg(loginInfo.getMessage());

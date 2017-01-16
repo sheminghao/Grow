@@ -13,6 +13,7 @@ import cn.lzh.baby.api.UploadApi;
 import cn.lzh.baby.http2_rx.HttpManager;
 import cn.lzh.baby.http2_rx.listener.HttpOnNextListener;
 import cn.lzh.baby.modle.BaseInfo;
+import cn.lzh.baby.modle.UploadInfo;
 import cn.lzh.baby.utils.app.UserUitls;
 import cn.lzh.baby.utils.json.GsonKit;
 import cn.lzh.baby.utils.tools.EmptyUtils;
@@ -68,7 +69,7 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 	/**
 	 * 发布心情
 	 */
-	public void publish(final List<String> urls){
+	public void publish(final String urls){
 		Observable.create(new Observable.OnSubscribe<AddDynamic>() {
 			@Override
 			public void call(Subscriber<? super AddDynamic> subscriber) {
@@ -77,7 +78,7 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 				String babyId=getBabyId();
 				String userId=getUserId();
 				String location=view.getLoction();
-				String url=getUrl(urls);
+				String url = urls;
 				api.setData(babyId,userId,content,"1",location,url);
 				Log.i("TAG", "======"+api.toString());
 				subscriber.onNext(api);
@@ -154,13 +155,12 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 	@Override
 	public void onNext(String result, String mothead) {
 		if (result!=null){
-			BaseInfo baseInfo = (BaseInfo) GsonKit.jsonToBean(result, BaseInfo.class);
+			UploadInfo uploadInfo = (UploadInfo) GsonKit.jsonToBean(result, UploadInfo.class);
 			if (TextUtils.equals(mothead,"file/upload")){
 				Log.i("TAG", "======"+result);
-				List<String> urls = new ArrayList<>();
-				publish(urls);
+				publish(uploadInfo.getDatum());
 			}else{
-				if (baseInfo.getCode() == 1) {
+				if (uploadInfo.getCode() == 1) {
 					Toast.makeText(view.getContext(), "发布成功", Toast.LENGTH_SHORT).show();
 					view.getContext().finish();
 				}else{

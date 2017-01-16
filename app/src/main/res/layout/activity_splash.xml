@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.shetj.babydiary.ui.splash.SplashActivity">
-    <include layout="@layout/content_splash"/>
+    tools:context="cn.lzh.baby.ui.splash.SplashActivity">
+    <include layout="@layout/content_splash"
+        android:visibility="gone"/>
 </android.support.design.widget.CoordinatorLayout>

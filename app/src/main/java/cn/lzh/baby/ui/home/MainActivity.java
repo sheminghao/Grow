@@ -40,6 +40,7 @@ import cn.lzh.baby.http2_rx.listener.HttpOnNextListener;
 import cn.lzh.baby.modle.Baby;
 import cn.lzh.baby.modle.LoginInfo;
 import cn.lzh.baby.modle.MainInfo;
+import cn.lzh.baby.modle.User;
 import cn.lzh.baby.ui.attention.AttentionActivity;
 import cn.lzh.baby.ui.babyInfo.BabyInfoActivity;
 import cn.lzh.baby.ui.publishMood.PublishMoodActivity;
@@ -99,13 +100,15 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	}
 
 	private void initData(){
+
+		Log.i("TAG", "==========token="+ UserUitls.getToken());
 		MainInfo mainInfo = UserUitls.getMainInfo();
 		if (null != mainInfo) {
 			initViewData(mainInfo);
 		}
 
 		manager=new HttpManager(this, this);
-		MainApi api=new MainApi(UserUitls.getLoginInfo().getToken()+"");
+		MainApi api=new MainApi(UserUitls.getToken()+"");
 		manager.doHttpDeal(api);
 	}
 
@@ -278,46 +281,52 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 			}else if (mainInfo.getCode() == 422){
 				Log.i("Tag", "-----code"+422);
 				appManager.exitLogin(MainActivity.this);
-				T.showShort(MainActivity.this, "登录失效，请重新登陆");
+				T.showShort(MainActivity.this, "登录失效，请重新登录");
 			}
 	}
 
 	private void initViewData(MainInfo mainInfo) {
-		tvBabyName.setText(mainInfo.getDatum().getNickname());
-		String sex = "";
-		if ("1".equals(mainInfo.getDatum().getSex())) {
-			sex = "男宝宝";
-			imgSex.setImageResource(R.mipmap.nan);
-		} else if ("2".equals(mainInfo.getDatum().getSex())) {
-			sex = "女宝宝";
-			imgSex.setImageResource(R.mipmap.nv);
-		} else {
-			sex = mainInfo.getDatum().getSex();
-		}
-		tvBabySex.setText(sex);
-		tvBabyBirth.setText(mainInfo.getDatum().getBirthday());
-
-		tvVideoNum.setText(mainInfo.getDatum().getVideoNum());
-		tvPicNum.setText(mainInfo.getDatum().getPicNum());
-
-		String[] titles = new String[mainInfo.getDatum().getTimeAxis().size()];
-		fragmentList.clear();
-		for (int i = 0; i < mainInfo.getDatum().getTimeAxis().size(); i++) {
-			List<String> timeAxis = mainInfo.getDatum().getTimeAxis();
-			String[] timeAxiss = timeAxis.get(i).split("-");
-			String mouth = timeAxiss[1];
-			if ("0".equals(mouth.substring(0,1))){
-				mouth = mouth.substring(1,2);
+		if (null != mainInfo.getDatum()) {
+			tvBabyName.setText(mainInfo.getDatum().getNickname());
+			String sex = "";
+			if ("1".equals(mainInfo.getDatum().getSex())) {
+				sex = "男宝宝";
+				imgSex.setImageResource(R.mipmap.nan);
+			} else if ("2".equals(mainInfo.getDatum().getSex())) {
+				sex = "女宝宝";
+				imgSex.setImageResource(R.mipmap.nv);
+			} else {
+				sex = mainInfo.getDatum().getSex();
 			}
-			titles[i] = mouth+"月";
-			Log.i("Tag", "-----title"+"-"+titles[i]);
-			DiaryFragment diaryFragment = DiaryFragment.newInstance(mouth+"月");
-			diaryFragment.setData(mainInfo.getDatum().getDynamic());
-			fragmentList.add(diaryFragment);
+			tvBabySex.setText(sex);
+			tvBabyBirth.setText(mainInfo.getDatum().getBirthday());
+
+			tvVideoNum.setText(mainInfo.getDatum().getVideoNum());
+			tvPicNum.setText(mainInfo.getDatum().getPicNum());
+
+			int titleSize = 0;
+			if (null != mainInfo.getDatum().getTimeAxis()){
+				titleSize=mainInfo.getDatum().getTimeAxis().size();
+			}
+			String[] titles = new String[titleSize];
+			fragmentList.clear();
+			for (int i = 0; i < titleSize; i++) {
+				List<String> timeAxis = mainInfo.getDatum().getTimeAxis();
+				String[] timeAxiss = timeAxis.get(i).split("-");
+				String mouth = timeAxiss[1];
+				if ("0".equals(mouth.substring(0, 1))) {
+					mouth = mouth.substring(1, 2);
+				}
+				titles[i] = mouth + "月";
+				Log.i("Tag", "-----title" + "-" + titles[i]);
+				DiaryFragment diaryFragment = DiaryFragment.newInstance(mouth + "月");
+				diaryFragment.setData(mainInfo.getDatum().getDynamic());
+				fragmentList.add(diaryFragment);
+			}
+			pageAdapter.setTitles(titles);
+			pageAdapter.notifyDataSetChanged();
+			tabs.notifyDataSetChanged();
 		}
-		pageAdapter.setTitles(titles);
-		pageAdapter.notifyDataSetChanged();
-		tabs.notifyDataSetChanged();
 	}
 
 	@Override

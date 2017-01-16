@@ -7,6 +7,8 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -41,35 +43,40 @@ public interface HttpService {
     /**
      * 登录接口
      */
+    @FormUrlEncoded
     @POST("user/login")
-    Observable<String> login(@Query("loginName") String loginName, @Query("password") String password);
+    Observable<String> login(@Field("loginName") String loginName, @Field("password") String password);
 
     /**
      * 注册接口
      */
+    @FormUrlEncoded
     @POST(UrlConfig.REGISTER)
-    Observable<String> register(@Query("loginName") String loginName, @Query("password") String password);
+    Observable<String> register(@Field("loginName") String loginName, @Field("password") String password);
 
     /**
      * 首页接口
      */
+    @FormUrlEncoded
     @POST(UrlConfig.MAININFO)
-    Observable<String> mainInfo(@Query("token") String token);
+    Observable<String> mainInfo(@Field("token") String token);
 
     /**
      * 添加私密日记
      */
+    @FormUrlEncoded
     @POST(UrlConfig.ADD_DIARY)
-    Observable<String> addDiary(@Query("content") String content,
-                                @Query("location") String location,
-                                @Query("spend") String spend,
-                                @Query("token") String token);
+    Observable<String> addDiary(@Field("content") String content,
+                                @Field("location") String location,
+                                @Field("spend") String spend,
+                                @Field("token") String token);
 
     /**
      * 宝宝列表
      */
+    @FormUrlEncoded
     @POST(UrlConfig.USER_BABY_LIST)
-    Observable<String> userBabylist(@Query("token") String token);
+    Observable<String> userBabylist(@Field("token") String token);
 
     /**
      * 通过 List<MultipartBody.Part> 传入多个part实现多文件上传
@@ -99,10 +106,11 @@ public interface HttpService {
     /**
      * 宝宝注册接口
      */
+    @FormUrlEncoded
     @POST("baby/add")
-    Observable<String> add(@Query("nickname") String nickname, @Query("sex") String sex,
-                           @Query("birthday") String birthday, @Query("portrait") String portrait,
-                           @Query("appellation") String appellation, @Query("token") String token);
+    Observable<String> add(@Field("nickname") String nickname, @Field("sex") String sex,
+                           @Field("birthday") String birthday, @Field("portrait") String portrait,
+                           @Field("appellation") String appellation, @Field("token") String token);
 
     /**
      * 上传文件接口
@@ -113,8 +121,9 @@ public interface HttpService {
 	/**
    * 首页接口
    */
+    @FormUrlEncoded
     @POST("baby/index")
-    Observable<String> index(@Query("appellation") String appellation, @Query("babyId") int babyId, @Query("userId") int userId);
+    Observable<String> index(@Field("appellation") String appellation, @Field("babyId") int babyId, @Field("userId") int userId);
 
 	/**
 	 * 获取首页动态的接口
@@ -125,15 +134,17 @@ public interface HttpService {
     /**
      * 设为主宝宝
      */
+    @FormUrlEncoded
     @POST("baby/setMainBaby")
-    Observable<String> setMainBaby(@Query("babyId") String babyId, @Query("token") String token);
+    Observable<String> setMainBaby(@Field("babyId") String babyId, @Field("token") String token);
 
     /**
      * 添加关注宝宝
      */
+    @FormUrlEncoded
     @POST("/baby/follow")
-    Observable<String> addAttention(@Query("code") String code, @Query("appellation") String appellation,
-                                    @Query("mainFlag") String mainFlag, @Query("token") String token);
+    Observable<String> addAttention(@Field("code") String code, @Field("appellation") String appellation,
+                                    @Field("mainFlag") String mainFlag, @Field("token") String token);
 
 	/**
 	 * 添加动态接口
@@ -145,8 +156,9 @@ public interface HttpService {
    location	√	定位地址
    url	√	图片url地址，多个用,隔开。如果是视频，则第一个是视频地址，第二个是预览图
    */
+    @FormUrlEncoded
     @POST("dynamic/add")
-    Observable<String> addDynamic(@Query("babyId") String babyId, @Query("userId") String userId,
-                                  @Query("content") String content, @Query("type") String type,
-                                  @Query("location") String location, @Query("url") String url);
+    Observable<String> addDynamic(@Field("babyId") String babyId, @Field("userId") String userId,
+                                  @Field("content") String content, @Field("type") String type,
+                                  @Field("location") String location, @Field("url") String url);
 }

@@ -9,6 +9,9 @@ public class UrlConfig {
     /*基础url*/
     public static final String URL="http://120.76.234.53:1111/grow/api/";
 
+    /*文件url*/
+    public static final String FILE_URL="http://120.76.234.53:1111/grow/upload";
+
     /**
      * 登录
      */

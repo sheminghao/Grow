@@ -2,6 +2,7 @@ package cn.lzh.baby.ui.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
@@ -9,6 +10,7 @@ import cn.lzh.baby.R;
 import cn.lzh.baby.ui.home.MainActivity;
 import cn.lzh.baby.ui.login.LoginActivity;
 import cn.lzh.baby.base.BaseMainActivity;
+import cn.lzh.baby.utils.app.UserUitls;
 import cn.lzh.baby.utils.view.LoadingDialog;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
@@ -40,6 +42,11 @@ public class SplashActivity extends BaseMainActivity implements SplashView{
 		setContentView(R.layout.activity_splash);
 		ButterKnife.bind(this);
 		presenter=new SplashPresenter(this);
+		if (!TextUtils.isEmpty(UserUitls.getToken())){
+			goMain();
+		}else{
+			goLogin();
+		}
 	}
 
 	@Override

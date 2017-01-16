@@ -15,7 +15,7 @@ public class MainApi extends BaseApi {
 
     public MainApi(String token){
         setShowProgress(false);
-        setCache(true);
+        setCache(false);
         setCancel(true);
         setMothed(UrlConfig.MAININFO);
         setCookieNetWorkTime(60);

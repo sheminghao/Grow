@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.lzh.baby.R;
+import cn.lzh.baby.http2_rx.Api.UrlConfig;
 import cn.lzh.baby.modle.MainInfo;
 import cn.lzh.baby.ui.play.PlayActivity;
 import cn.lzh.baby.utils.tools.GlideImageLoader;
@@ -95,22 +96,21 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.MyViewHolder
 			holder.tvCreateTime.setText(list.get(position).getCreate_date() + "");
 			holder.tvLoc.setText(list.get(position).getLocation() + "");
 			holder.tvContent.setText(list.get(position).getContent() + "");
+
+			//设置图片集合
+			List<String> images=new ArrayList<>();
+			images.add(UrlConfig.FILE_URL+list.get(position).getUrl());
+			//设置指示器位置（当banner模式中有指示器时）
+			Banner banner= (Banner) holder.itemView.findViewById(R.id.banner);
+			banner.setImages(images)
+					.setImageLoader(new GlideImageLoader())
+					.setIndicatorGravity(BannerConfig.CENTER)
+					//设置轮播时间
+					.setDelayTime(1500)
+					.isAutoPlay(true)//设置自动轮播，默认为true
+					.start();
         }
 
-		//设置图片集合
-		List<Integer> images=new ArrayList<>();
-		images.add(R.mipmap.ziliaotouxiang);
-		images.add(R.mipmap.ziliaotouxiang);
-		images.add(R.mipmap.ziliaotouxiang);
-		//设置指示器位置（当banner模式中有指示器时）
-		Banner banner= (Banner) holder.itemView.findViewById(R.id.banner);
-		banner.setImages(images)
-						.setImageLoader(new GlideImageLoader())
-						.setIndicatorGravity(BannerConfig.CENTER)
-						//设置轮播时间
-						.setDelayTime(1500)
-						.isAutoPlay(true)//设置自动轮播，默认为true
-						.start();
 	}
 
 	/**

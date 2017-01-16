@@ -61,7 +61,8 @@
                         android:layout_width="wrap_content"
                         android:orientation="horizontal"
                         android:layout_gravity="right"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
                         <ImageView
                             android:layout_width="12dp"
                             android:layout_height="12dp"
@@ -70,7 +71,7 @@
                             android:id="@+id/tv_loc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="特发信息港"
+                            android:text=""
                             android:textSize="12dp"
                             android:layout_marginLeft="5dp"
                             android:textColor="@color/weizhiColor"/>
@@ -96,7 +97,7 @@
                     android:id="@+id/banner"
                     android:padding="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp">
+                    android:layout_height="180dp">
                 </com.youth.banner.Banner>
             </LinearLayout>
             <LinearLayout

@@ -7,11 +7,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.youth.banner.loader.ImageLoader;
 
+import cn.lzh.baby.R;
+
 public class GlideImageLoader extends ImageLoader {
     @Override
     public void displayImage(Context context, Object path, ImageView imageView) {
-        Glide.with(context).load(path).centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        Glide.with(context).load(path)
+                .placeholder(R.mipmap.ziliaotouxiang)
+                .error(R.mipmap.ziliaotouxiang)
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(imageView);
     }
 
 }

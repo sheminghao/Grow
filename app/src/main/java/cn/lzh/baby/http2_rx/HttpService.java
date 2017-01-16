@@ -160,5 +160,7 @@ public interface HttpService {
     @POST("dynamic/add")
     Observable<String> addDynamic(@Field("babyId") String babyId, @Field("userId") String userId,
                                   @Field("content") String content, @Field("type") String type,
-                                  @Field("location") String location, @Field("url") String url);
+                                  @Field("location") String location,
+                                  @Field("token") String token,
+                                  @Field("url") String url);
 }

@@ -43,6 +43,7 @@ public class MainInfo extends BaseInfo implements Serializable{
         private String birthday;
         private String sex;
         private String videoNum;
+        private String secretKey;
         private String nickname;
         private String babyId;
         private String picNum;
@@ -72,6 +73,14 @@ public class MainInfo extends BaseInfo implements Serializable{
 
         public void setVideoNum(String videoNum) {
             this.videoNum = videoNum;
+        }
+
+        public String getSecretKey() {
+            return secretKey;
+        }
+
+        public void setSecretKey(String secretKey) {
+            this.secretKey = secretKey;
         }
 
         public String getNickname() {

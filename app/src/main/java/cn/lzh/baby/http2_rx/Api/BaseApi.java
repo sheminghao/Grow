@@ -6,8 +6,10 @@ import cn.lzh.baby.AppManager;
 import cn.lzh.baby.http2_rx.HttpService;
 import cn.lzh.baby.http2_rx.exception.HttpTimeException;
 import cn.lzh.baby.modle.BaseInfo;
+import cn.lzh.baby.ui.home.MainActivity;
 import cn.lzh.baby.utils.json.GsonKit;
 import cn.lzh.baby.utils.tools.L;
+import cn.lzh.baby.utils.tools.T;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -22,7 +24,8 @@ public abstract class BaseApi<T> implements Func1<T, String> {
     /*是否需要缓存处理*/
     private boolean cache=true;
     /*基础url*/
-    private  String baseUrl="http://120.76.234.53:1111/grow/api/";
+//    private  String baseUrl="http://120.76.234.53:1111/grow/api/";
+    private  String baseUrl="http://192.168.1.102:8090/grow/api/";
     /*方法-如果需要缓存必须设置这个参数；不需要不用設置*/
     private String mothed;
     /*超时时间-默认6秒*/
@@ -121,9 +124,11 @@ public abstract class BaseApi<T> implements Func1<T, String> {
             return httpResult.toString();
         }
         if (baseResulte.getCode()==422){
+            AppManager.getAppManager().exitLogin(APP.app);
+            cn.lzh.baby.utils.tools.T.showShort(APP.app, "登录失效，请重新登录");
             return httpResult.toString();
         }
-        return "";
+        return httpResult.toString();
 
     }
 }

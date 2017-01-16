@@ -2,6 +2,7 @@ package cn.lzh.baby.api;
 
 import cn.lzh.baby.http2_rx.Api.BaseApi;
 import cn.lzh.baby.http2_rx.HttpService;
+import cn.lzh.baby.utils.app.UserUitls;
 import rx.Observable;
 
 /**
@@ -15,6 +16,7 @@ public class AddDynamic extends BaseApi {
 	private String type	;//√	内容1、图片；2、视频；3、私密日记
 	private String location;//	√	定位地址
 	private String imageUrl	;//√	图片url地址，多个用,隔开。如果是视频，则第一个是视频地址，第二个是预览图
+	private String token;
 
 	public AddDynamic(){
 		setMothed("dynamic/add");
@@ -30,7 +32,9 @@ public class AddDynamic extends BaseApi {
 		this.type=type;
 		this.location=location;
 		this.imageUrl=imageUrl;
-
+		if (null != UserUitls.getToken()) {
+			token = UserUitls.getToken();
+		}
 	}
 
 	public String getBabyId() {
@@ -83,6 +87,6 @@ public class AddDynamic extends BaseApi {
 
 	@Override
 	public Observable getObservable(HttpService methods) {
-		return methods.addDynamic(babyId,userId,content,type,location,imageUrl);
+		return methods.addDynamic(babyId,userId,content,type,location,imageUrl, token);
 	}
 }

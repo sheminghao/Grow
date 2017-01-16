@@ -206,7 +206,6 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
                 case UNAUTHORIZED:
                 case FORBIDDEN:
                 case REQUEST_TIMEOUT:
-                case INTERNAL_SERVER_ERROR:
                 case BAD_GATEWAY:
                 case SERVICE_UNAVAILABLE:
                 default:
@@ -218,9 +217,12 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
                 case NOT_FOUND:
                     Toast.makeText(context, "404，读取数据失败", Toast.LENGTH_SHORT).show();
                     break;
+                case INTERNAL_SERVER_ERROR:
+                    Toast.makeText(context, "500，服务器异常", Toast.LENGTH_SHORT).show();
+                    break;
             }
         } else if (e instanceof HttpTimeException) {
-            Toast.makeText(context, "错误 " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
         } else if (e instanceof SocketTimeoutException) {
             Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
         }else if (e instanceof JsonParseException
@@ -233,7 +235,7 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
             Toast.makeText(context, "证书验证失败", Toast.LENGTH_SHORT).show();
         }
         else {
-            Toast.makeText(context, "未知错误", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         if(mSubscriberOnNextListener.get()!=null){
             mSubscriberOnNextListener.get().onError(e);

@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.bumptech.glide.Glide;
 import com.jakewharton.rxbinding.view.RxView;
 
 import org.xutils.common.util.DensityUtil;
@@ -100,7 +101,6 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	}
 
 	private void initData(){
-
 		Log.i("TAG", "==========token="+ UserUitls.getToken());
 		MainInfo mainInfo = UserUitls.getMainInfo();
 		if (null != mainInfo) {
@@ -185,11 +185,11 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 
 	private void showPop(final int[] positon) {
 		pop=new MyPopupWindow(this,R.layout.pop_case,positon,true,DensityUtil.dip2px(180),DensityUtil.dip2px(300));
-		//宝宝资料
+		//我的宝宝
 		pop.setViewListener(R.id.ly_baobao, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(MainActivity.this, BabyInfoActivity.class));
+				startActivity(new Intent(MainActivity.this, AttentionActivity.class));
 				pop.dismiss();
 			}
 		});
@@ -221,7 +221,7 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 		pop.setViewListener(R.id.ly_mine, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(MainActivity.this, AttentionActivity.class));
+				startActivity(new Intent(MainActivity.this, BabyInfoActivity.class));
 				pop.dismiss();
 			}
 		});
@@ -287,6 +287,13 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 
 	private void initViewData(MainInfo mainInfo) {
 		if (null != mainInfo.getDatum()) {
+			Glide.with(MainActivity.this)
+					.load(mainInfo.getDatum().getPortrait())
+					.placeholder(R.mipmap.ziliaotouxiang)
+					.error(R.mipmap.ziliaotouxiang)
+					.centerCrop()
+					.into(ivBaby);
+
 			tvBabyName.setText(mainInfo.getDatum().getNickname());
 			String sex = "";
 			if ("1".equals(mainInfo.getDatum().getSex())) {

@@ -76,6 +76,7 @@
                 android:gravity="center"
                 android:text="写日记"/>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ly_baobao"
             android:layout_width="match_parent"
@@ -95,8 +96,9 @@
                 android:gravity="center"
                 android:padding="5dp"
                 android:textSize="18sp"
-                android:text="宝宝资料"/>
+                android:text="我的宝宝"/>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/ly_mine"
             android:layout_width="match_parent"
@@ -118,6 +120,7 @@
                 android:textSize="18sp"
                 android:text="我的资料"/>
         </LinearLayout>
+
     </LinearLayout>
     <!--<ImageView-->
         <!--android:layout_width="80dp"-->

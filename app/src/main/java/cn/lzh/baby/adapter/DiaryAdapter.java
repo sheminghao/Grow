@@ -92,7 +92,7 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.MyViewHolder
 	 */
 	private void showTuWen(MyViewHolder holder, int position) {
         if (null != list.get(position)) {
-			holder.tvName.setText(list.get(position).getBabyNickname() + "");
+			holder.tvName.setText(list.get(position).getBabyNickname() +"的"+ list.get(position).getAppellation());
 			holder.tvCreateTime.setText(list.get(position).getCreate_date() + "");
 			holder.tvLoc.setText(list.get(position).getLocation() + "");
 			holder.tvContent.setText(list.get(position).getContent() + "");

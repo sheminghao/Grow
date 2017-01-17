@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.astuetz.PagerSlidingTabStrip;
 import com.bumptech.glide.Glide;
 import com.jakewharton.rxbinding.view.RxView;
+import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import org.xutils.common.util.DensityUtil;
 
@@ -34,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.lzh.baby.R;
 import cn.lzh.baby.adapter.PageAdapter;
+import cn.lzh.baby.api.AddAttentionApi;
 import cn.lzh.baby.api.MainApi;
 import cn.lzh.baby.base.BaseActivity;
 import cn.lzh.baby.http2_rx.HttpManager;
@@ -42,6 +44,7 @@ import cn.lzh.baby.modle.Baby;
 import cn.lzh.baby.modle.LoginInfo;
 import cn.lzh.baby.modle.MainInfo;
 import cn.lzh.baby.modle.User;
+import cn.lzh.baby.ui.InvitationCode.InvitationCodeActivity;
 import cn.lzh.baby.ui.attention.AttentionActivity;
 import cn.lzh.baby.ui.babyInfo.BabyInfoActivity;
 import cn.lzh.baby.ui.publishMood.PublishMoodActivity;
@@ -82,6 +85,8 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	TextView tvPicNum;
 	@BindView(R.id.img_qr_code)
 	ImageView imgQRCode;
+    @BindView(R.id.img_scan)
+    ImageView imgScan;
 	@BindView(R.id.app_bar)
 	AppBarLayout appBarLayout;
 
@@ -89,6 +94,7 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	private PageAdapter pageAdapter;
 	private MyPopupWindow pop;
 	private HttpManager manager;
+	private final int QR_CODE = 1002;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -113,10 +119,6 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	}
 
 	private void setFabEvent(){
-		Bitmap bitmap = QRCodeUtil.createQRImage(getMyUUID()+getMyUUID(), 200, 200, null, "");
-		if (null != bitmap) {
-			imgQRCode.setImageBitmap(bitmap);
-		}
 		RxView.clicks(fab).subscribe(new Action1<Void>() {
 			@Override
 			public void call(Void aVoid) {
@@ -130,13 +132,21 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 		RxView.clicks(imgQRCode).subscribe(new Action1<Void>() {
 			@Override
 			public void call(Void aVoid) {
-				Bitmap bitmap = QRCodeUtil.createQRImage(getMyUUID()+getMyUUID(), 200, 200, null, "");
+				Bitmap bitmap = QRCodeUtil.createQRImage(getMyUUID()+"-"+
+						UserUitls.getMainInfo().getDatum().getSecretKey(), 200, 200, null, "");
 				if (null != bitmap) {
 					showQRDialog(bitmap);
 				}
 			}
 
 		});
+        RxView.clicks(imgScan).subscribe(new Action1<Void>() {
+            @Override
+            public void call(Void aVoid) {
+                //去扫描界面
+                startActivityForResult(new Intent(MainActivity.this, CaptureActivity.class), QR_CODE);
+            }
+        });
 		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -287,6 +297,10 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 
 	private void initViewData(MainInfo mainInfo) {
 		if (null != mainInfo.getDatum()) {
+			Bitmap bitmap = QRCodeUtil.createQRImage(getMyUUID()+"-"+mainInfo.getDatum().getSecretKey(), 200, 200, null, "");
+			if (null != bitmap) {
+				imgQRCode.setImageBitmap(bitmap);
+			}
 			Glide.with(MainActivity.this)
 					.load(mainInfo.getDatum().getPortrait())
 					.placeholder(R.mipmap.ziliaotouxiang)
@@ -341,6 +355,19 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 		swipeRefreshLayout.setRefreshing(false);
 	}
 
-
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			if (requestCode==QR_CODE) {
+				String result = data.getExtras().getString("result");
+				String secretKey = result.substring(37,result.length());
+				Log.i("TAG", "------secretKey="+result+","+secretKey);
+				Intent intent = new Intent(MainActivity.this, InvitationCodeActivity.class);
+				intent.putExtra("secretKey", secretKey);
+				startActivity(intent);
+			}
+		}
+	}
 }
 

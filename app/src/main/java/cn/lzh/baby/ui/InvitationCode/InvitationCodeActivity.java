@@ -2,7 +2,7 @@ package cn.lzh.baby.ui.InvitationCode;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,10 +38,14 @@ public class InvitationCodeActivity extends BaseActivity implements InvitationCo
     RadioGroup radioGroup;
     @BindView(R.id.rb_yes)
     RadioButton rbYes;
+    @BindView(R.id.rb_no)
+    RadioButton rbNo;
     @BindView(R.id.btn_add_attention)
     Button btnAddAttention;
 
     InvitationCodePretener invitationCodePretener;
+
+    private String secretKey;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,8 +55,13 @@ public class InvitationCodeActivity extends BaseActivity implements InvitationCo
         ButterKnife.bind(this);
         tvTitle.setText("添加关注宝宝");
         tvRight.setVisibility(View.GONE);
-        rbYes.setChecked(false);
+        rbNo.setChecked(true);
         invitationCodePretener = new InvitationCodePretener(this);
+        secretKey = getIntent().getStringExtra("secretKey");
+        if (TextUtils.isEmpty(secretKey)){
+            secretKey = "";
+        }
+        etYaoqingma.setText(secretKey);
     }
 
     @OnClick({R.id.iv_return, R.id.btn_add_attention})

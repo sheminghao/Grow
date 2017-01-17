@@ -105,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:text="是"/>
             <RadioButton
+                android:id="@+id/rb_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="否"/>

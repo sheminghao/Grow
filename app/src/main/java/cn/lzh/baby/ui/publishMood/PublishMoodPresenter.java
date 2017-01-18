@@ -69,37 +69,22 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 	/**
 	 * 发布心情
 	 */
-	public void publish(final String urls){
-		Observable.create(new Observable.OnSubscribe<AddDynamic>() {
-			@Override
-			public void call(Subscriber<? super AddDynamic> subscriber) {
-				AddDynamic api=new AddDynamic();
-				String content=view.getContent();
-				String babyId=getBabyId();
-				String userId=getUserId();
-				String location=view.getLoction();
-				String url = urls;
-				api.setData(babyId,userId,content,"1",location,url);
-				Log.i("TAG", "======"+api.toString());
-				subscriber.onNext(api);
-			}
-		}).map(new Func1<AddDynamic, AddDynamic>() {
-			@Override
-			public AddDynamic call(AddDynamic addDynamic) {
-				if (EmptyUtils.isEmpty(addDynamic.getContent())){
-					T.show(view.getContext(),"内容不能为空！",0);
-					return null;
-				}
-				return addDynamic;
-			}
-		}).subscribe(new Action1<AddDynamic>() {
-			@Override
-			public void call(AddDynamic addDynamic) {
-				if (addDynamic!=null) {
-					manager.doHttpDeal(addDynamic);
-				}
-			}
-		});
+	public void publish(String urls){
+		Log.i("TAG", "=====publish");
+        if (TextUtils.isEmpty(view.getContent())){
+            T.show(view.getContext(),"内容不能为空！",0);
+            return;
+        }
+        AddDynamic api=new AddDynamic();
+        String content=view.getContent();
+        String babyId=getBabyId();
+        String userId=getUserId();
+        String location=view.getLoction();
+        String url = urls;
+		Log.i("TAG","=====babyId"+babyId+"=userId"+userId+"=content"+content+"=type"+"1"+"=location"+location
+				+"=imageUrl"+url+"=token"+UserUitls.getToken());
+        api.setData(babyId,userId,content,"1",location,url);
+        manager.doHttpDeal(api);
 	}
 
 	private String getUrl(List<String> urls) {
@@ -111,11 +96,14 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 	}
 
 	private String getUserId() {
+		if (null==UserUitls.getLoginInfo()||null==UserUitls.getLoginInfo().getInfo()){
+			return "";
+		}
 		return UserUitls.getLoginInfo().getInfo().getId()+"";
 	}
 
 	private String getBabyId() {
-		return UserUitls.getBabyInfo().getId();
+		return UserUitls.getMainInfo().getDatum().getBabyId();
 	}
 
 
@@ -158,7 +146,11 @@ public class PublishMoodPresenter implements HttpOnNextListener{
 			UploadInfo uploadInfo = (UploadInfo) GsonKit.jsonToBean(result, UploadInfo.class);
 			if (TextUtils.equals(mothead,"file/upload")){
 				Log.i("TAG", "======"+result);
-				publish(uploadInfo.getDatum());
+				if (!TextUtils.isEmpty(uploadInfo.getDatum())){
+					publish(uploadInfo.getDatum());
+				}else{
+					publish("");
+				}
 			}else{
 				if (uploadInfo.getCode() == 1) {
 					Toast.makeText(view.getContext(), "发布成功", Toast.LENGTH_SHORT).show();

@@ -233,6 +233,8 @@ public class ProgressSubscriber<T> extends Subscriber<T> {
             Toast.makeText(context, "网络中断，请检查您的网络状态", Toast.LENGTH_SHORT).show();
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
             Toast.makeText(context, "证书验证失败", Toast.LENGTH_SHORT).show();
+        }else if (e instanceof NullPointerException) {
+//            Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         else {
             Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();

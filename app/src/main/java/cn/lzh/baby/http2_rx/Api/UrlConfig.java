@@ -28,6 +28,11 @@ public class UrlConfig {
     public static final String MAININFO = "main/mainInfo";
 
     /**
+     * 获取首页时光轴动态接口
+     */
+    public static final String TIMELIST = "main/timeList";
+
+    /**
      * 添加私密日记
      */
     public static final String ADD_DIARY = "diary/add";

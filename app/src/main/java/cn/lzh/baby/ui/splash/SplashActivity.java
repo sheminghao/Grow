@@ -42,8 +42,12 @@ public class SplashActivity extends BaseMainActivity implements SplashView{
 		setContentView(R.layout.activity_splash);
 		ButterKnife.bind(this);
 		presenter=new SplashPresenter(this);
-		if (!TextUtils.isEmpty(UserUitls.getToken())){
-			goMain();
+		if (UserUitls.isLogin()) {
+			if (!TextUtils.isEmpty(UserUitls.getToken())) {
+				goMain();
+			} else {
+				goLogin();
+			}
 		}else{
 			goLogin();
 		}

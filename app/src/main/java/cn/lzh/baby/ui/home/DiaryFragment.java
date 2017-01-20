@@ -1,15 +1,18 @@
 package cn.lzh.baby.ui.home;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,14 +21,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.lzh.baby.R;
 import cn.lzh.baby.adapter.DiaryAdapter;
+import cn.lzh.baby.api.TimeListApi;
 import cn.lzh.baby.base.BaseFragment;
+import cn.lzh.baby.http2_rx.HttpManager;
+import cn.lzh.baby.http2_rx.listener.HttpOnNextListener;
 import cn.lzh.baby.modle.MainInfo;
+import cn.lzh.baby.utils.json.GsonKit;
 import cn.lzh.baby.utils.tools.L;
 
 /**
  * 日记
  */
-public class DiaryFragment extends BaseFragment {
+public class DiaryFragment extends BaseFragment implements HttpOnNextListener{
 
 
 	@BindView(R.id.iRecyclerView)
@@ -33,6 +40,9 @@ public class DiaryFragment extends BaseFragment {
 	private DiaryAdapter diaryAdapter;
 	private LRecyclerViewAdapter mLRecyclerViewAdapter;
 	private LinearLayoutManager mLinearLayoutManager;
+	private HttpManager manager;
+
+	private String time;
 
 	private List<MainInfo.DatumBean.DynamicBean> list = new ArrayList();
 
@@ -61,11 +71,16 @@ public class DiaryFragment extends BaseFragment {
 		setInfo();
 	}
 
-	public void setData(List<MainInfo.DatumBean.DynamicBean> list) {
-		this.list = list;
-		if (null != diaryAdapter){
-			diaryAdapter.setData(list);
-		}
+	public void setData(List<MainInfo.DatumBean.DynamicBean> list, String time, Context context) {
+		this.time = time;
+//		this.list = list;
+//		if (null != diaryAdapter){
+//			diaryAdapter.setData(list);
+//		}
+		TimeListApi timeListApi = new TimeListApi();
+		timeListApi.setDate(time);
+		manager = new HttpManager(this, (RxAppCompatActivity)context);
+        manager.doHttpDeal(timeListApi);
 	}
 
 	private void setInfo() {
@@ -92,6 +107,22 @@ public class DiaryFragment extends BaseFragment {
 
 	@Override
 	protected void lazyLoadData() {
+
+	}
+
+	@Override
+	public void onNext(String result, String mothead) {
+		Log.i("TAG", "=======DiaryFragment="+result);
+		MainInfo mainInfo = (MainInfo) GsonKit.jsonToBean(result, MainInfo.class);
+		if (mainInfo.getCode() == 1) {
+			if (null != mainInfo.getDatum() && null != mainInfo.getDatum().getDynamic()) {
+				diaryAdapter.setData(mainInfo.getDatum().getDynamic());
+			}
+		}
+	}
+
+	@Override
+	public void onError(Throwable e) {
 
 	}
 }

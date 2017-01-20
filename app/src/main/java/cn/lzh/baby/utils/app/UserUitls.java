@@ -96,4 +96,14 @@ public class UserUitls {
 		}
 	}
 
+	public static boolean isLogin(){
+		boolean isLogin=(boolean) SPUtils.get(APP.app,"isLogin",false);
+		return isLogin;
+	}
+
+	public static void setIsLogin(boolean isLogin){
+		if (!EmptyUtils.isEmpty(isLogin)) {
+			SPUtils.put(APP.app, "isLogin", isLogin);
+		}
+	}
 }

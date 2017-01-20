@@ -290,6 +290,7 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
                 }
 			}else if (mainInfo.getCode() == 422){
 				Log.i("Tag", "-----code"+422);
+				UserUitls.setIsLogin(false);
 				appManager.exitLogin(MainActivity.this);
 				T.showShort(MainActivity.this, "登录失效，请重新登录");
 			}
@@ -341,7 +342,7 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 				titles[i] = mouth + "月";
 				Log.i("Tag", "-----title" + "-" + titles[i]);
 				DiaryFragment diaryFragment = DiaryFragment.newInstance(mouth + "月");
-				diaryFragment.setData(mainInfo.getDatum().getDynamic());
+				diaryFragment.setData(mainInfo.getDatum().getDynamic(), timeAxis.get(i)+"-01", this);
 				fragmentList.add(diaryFragment);
 			}
 			pageAdapter.setTitles(titles);

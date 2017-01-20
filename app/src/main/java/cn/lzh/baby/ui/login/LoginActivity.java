@@ -20,6 +20,7 @@ import cn.lzh.baby.R;
 import cn.lzh.baby.base.BaseActivity;
 import cn.lzh.baby.ui.home.MainActivity;
 import cn.lzh.baby.ui.register.RegisterActivity;
+import cn.lzh.baby.utils.app.UserUitls;
 import cn.lzh.baby.utils.tools.T;
 import cn.lzh.baby.utils.view.LoadingDialog;
 import rx.functions.Action1;
@@ -84,6 +85,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
 	public void loginSuccese(String msg) {
 		LoadingDialog.disDialog();
 		showMsg(msg);
+		UserUitls.setIsLogin(true);
 		goMain();
 	}
 

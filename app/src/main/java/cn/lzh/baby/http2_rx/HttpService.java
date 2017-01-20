@@ -62,6 +62,13 @@ public interface HttpService {
     Observable<String> mainInfo(@Field("token") String token);
 
     /**
+     * 获取首页时光轴动态接口
+     */
+    @FormUrlEncoded
+    @POST(UrlConfig.TIMELIST)
+    Observable<String> timeList(@Field("date") String date, @Field("token") String token);
+
+    /**
      * 添加私密日记
      */
     @FormUrlEncoded

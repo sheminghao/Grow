@@ -1,9 +1,11 @@
 package cn.lzh.baby.ui.home;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,16 +64,29 @@ public class DiaryFragment extends BaseFragment implements HttpOnNextListener{
 	                         Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_diary, container, false);
 		ButterKnife.bind(this, view);
+		Log.i("TAG", "======DiaryFragment_onCreateView");
 		return view;
+	}
+
+	@Override
+	protected void initEventAndData() {
+
+	}
+
+	@Override
+	protected void lazyLoadData() {
+
 	}
 
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		Log.i("TAG", "======DiaryFragment_onViewCreated");
 		setInfo();
 	}
 
 	public void setData(List<MainInfo.DatumBean.DynamicBean> list, String time, Context context) {
+		Log.i("TAG", "======DiaryFragment_setData");
 		this.time = time;
 //		this.list = list;
 //		if (null != diaryAdapter){
@@ -98,16 +113,6 @@ public class DiaryFragment extends BaseFragment implements HttpOnNextListener{
 		mLRecyclerViewAdapter = new LRecyclerViewAdapter(diaryAdapter);
 		iRecyclerView.setAdapter(mLRecyclerViewAdapter);
 		diaryAdapter.setData(list);
-	}
-
-	@Override
-	protected void initEventAndData() {
-
-	}
-
-	@Override
-	protected void lazyLoadData() {
-
 	}
 
 	@Override

@@ -107,12 +107,15 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 	}
 
 	private void initData(){
-		Log.i("TAG", "==========token="+ UserUitls.getToken());
 		MainInfo mainInfo = UserUitls.getMainInfo();
 		if (null != mainInfo) {
 			initViewData(mainInfo);
 		}
+		loadData();
+	}
 
+	private void loadData(){
+		Log.i("TAG", "==========token="+ UserUitls.getToken());
 		manager=new HttpManager(this, this);
 		MainApi api=new MainApi(UserUitls.getToken()+"");
 		manager.doHttpDeal(api);
@@ -150,7 +153,7 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 		swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
-				initData();
+				loadData();
 			}
 		});
 		appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -341,7 +344,7 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 				}
 				titles[i] = mouth + "月";
 				Log.i("Tag", "-----title" + "-" + titles[i]);
-				DiaryFragment diaryFragment = DiaryFragment.newInstance(mouth + "月");
+				DiaryFragment diaryFragment = DiaryFragment.newInstance(timeAxis.get(i)+"-01");
 				diaryFragment.setData(mainInfo.getDatum().getDynamic(), timeAxis.get(i)+"-01", this);
 				fragmentList.add(diaryFragment);
 			}
@@ -370,5 +373,6 @@ public class MainActivity extends BaseActivity implements HttpOnNextListener {
 			}
 		}
 	}
+
 }
 

@@ -12,6 +12,7 @@ import cn.lzh.baby.modle.LoginInfo;
 import cn.lzh.baby.utils.app.UserUitls;
 import cn.lzh.baby.utils.json.GsonKit;
 import cn.lzh.baby.utils.tools.EmptyUtils;
+import cn.lzh.baby.utils.view.LoadingDialog;
 
 
 /**
@@ -69,6 +70,7 @@ public class LoginPresenter implements HttpOnNextListener{
 			UserUitls.saveLoginInfo(loginInfo);
 			loginView.loginSuccese("登录成功！");
 		}else {
+			LoadingDialog.disDialog();
 			loginView.showMsg(loginInfo.getMessage());
 		}
 	}

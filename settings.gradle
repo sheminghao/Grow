@@ -1,1 +1,1 @@
-include ':app', ':pagerSlidingTabStrip'
+include ':app', ':pagerSlidingTabStrip', ':recycler', ':libzxing'
